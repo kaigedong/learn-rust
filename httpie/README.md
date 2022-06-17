@@ -20,4 +20,4 @@
 cargo build --quiet && target/debug/httpie post httpbin.org/post a=1 b=2
 ```
 
-- [ ] 使用 syntect 继续完善 HTTPie 进行 HTTP body 的语法高亮
+- [x] 使用 syntect 继续完善 HTTPie 进行 HTTP body 的语法高亮
