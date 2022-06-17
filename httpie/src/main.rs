@@ -69,7 +69,7 @@ impl FromStr for KvPair {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         // 使用= 进行split 这会得到一个迭代器
-        let mut split = s.split("=");
+        let mut split = s.split('=');
         let err = || anyhow!(format!("Failed to parse {}", s));
         Ok(Self {
             // 从迭代器中取第一个结果作为key，迭代器返回Some(T)/None
@@ -83,7 +83,7 @@ impl FromStr for KvPair {
 
 /// 因为我们为KvPair实现了FromStr，这里可以直接s.parse()得到KvPair
 fn parse_kv_pair(s: &str) -> Result<KvPair> {
-    Ok(s.parse()?)
+    s.parse()
 }
 
 fn parse_url(s: &str) -> Result<String> {
@@ -94,7 +94,7 @@ fn parse_url(s: &str) -> Result<String> {
 
 async fn get(client: Client, args: &Get) -> Result<()> {
     let resp = client.get(&args.url).send().await?;
-    Ok(print_resp(resp).await?)
+    print_resp(resp).await
 }
 
 async fn post(client: Client, args: &Post) -> Result<()> {
@@ -103,7 +103,7 @@ async fn post(client: Client, args: &Post) -> Result<()> {
         body.insert(&pair.k, &pair.v);
     }
     let resp = client.post(&args.url).json(&body).send().await?;
-    Ok(print_resp(resp).await?)
+    print_resp(resp).await
 }
 
 // 打印服务器版本号 + 状态码
