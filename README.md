@@ -1,11 +1,11 @@
 # Rust 每天练习
 
-- [ ] 自动格式化
+- [x] 格式化
 
-- [ ] Clippy
+- [x] Clippy
 
-- [ ] Auto bump
+- [x] Auto bump
 
-- [ ] 代码行数自动统计
+- [ ] 代码行数自动统计(tokei)
 
 - [ ] 合并[rust-full-stack](https://github.com/kaigedong/rust-full-stack)
