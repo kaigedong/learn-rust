@@ -4,6 +4,14 @@ use colored::*;
 use mime::Mime;
 use reqwest::{header, Client, Response, Url};
 use std::{collections::HashMap, str::FromStr};
+use syntect::{
+    easy::HighlightLines,
+    highlighting::{Style, ThemeSet},
+    parsing::SyntaxSet,
+    util::{as_24_bit_terminal_escaped, LinesWithEndings},
+};
+
+// 以下部分用于处理CLI
 
 // 定义HTTPie的CLI主入口，包含若干个命令
 // 下面///的文档是注释，clap会将其作为CLI的帮助
@@ -32,12 +40,6 @@ struct Get {
     /// HTTP 请求的URL
     #[clap(parse(try_from_str = parse_url))]
     url: String,
-}
-
-fn parse_url(s: &str) -> Result<String> {
-    // 这里仅仅检查一下URL是否合法
-    let _url: Url = s.parse()?;
-    Ok(s.into())
 }
 
 // post 子命令。需要输入一个URL和若干个可选的key=value, 用于提供json body
@@ -84,6 +86,12 @@ fn parse_kv_pair(s: &str) -> Result<KvPair> {
     Ok(s.parse()?)
 }
 
+fn parse_url(s: &str) -> Result<String> {
+    // 这里仅仅检查一下URL是否合法
+    let _url: Url = s.parse()?;
+    Ok(s.into())
+}
+
 async fn get(client: Client, args: &Get) -> Result<()> {
     let resp = client.get(&args.url).send().await?;
     Ok(print_resp(resp).await?)
@@ -110,16 +118,16 @@ fn print_headers(resp: &Response) {
         println!("{}: {:?}", name.to_string().green(), value);
     }
 
-    print!("\n");
+    println!();
 }
 
 // 打印服务器返回的HTTP body
-fn print_body(m: Option<Mime>, body: &String) {
+fn print_body(m: Option<Mime>, body: &str) {
     match m {
         // 对于application/json 我们pretty print
-        Some(v) if v == mime::APPLICATION_JSON => {
-            println!("{}", jsonxf::pretty_print(body).unwrap().cyan())
-        }
+        Some(v) if v == mime::APPLICATION_JSON => print_syntect(body, "json"),
+        Some(v) if v == mime::TEXT_HTML => print_syntect(body, "html"),
+
         //其他mime type 我们就直接输出
         _ => println!("{}", body),
     }
@@ -159,6 +167,19 @@ async fn main() -> Result<()> {
     };
 
     Ok(result)
+}
+
+fn print_syntect(s: &str, ext: &str) {
+    // load those once at the start of your program
+    let ps = SyntaxSet::load_defaults_newlines();
+    let ts = ThemeSet::load_defaults();
+    let syntax = ps.find_syntax_by_extension(ext).unwrap();
+    let mut h = HighlightLines::new(syntax, &ts.themes["base16-onean.dark"]);
+    for line in LinesWithEndings::from(s) {
+        let ranges: Vec<(Style, &str)> = h.highlight_line(line, &ps).unwrap();
+        let escaped = as_24_bit_terminal_escaped(&ranges[..], true);
+        print!("{}", escaped);
+    }
 }
 
 // 仅在cargo test时才编译
