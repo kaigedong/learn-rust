@@ -1,10 +1,9 @@
 use anyhow::Result;
 use axum::{
-    BoxError,
     extract::{Extension, Path},
     http::{HeaderMap, HeaderValue, StatusCode},
     routing::get,
-    Router, error_handling::HandleErrorLayer,
+    Router,
 };
 use bytes::Bytes;
 use image::ImageOutputFormat;
@@ -51,19 +50,17 @@ async fn main() {
     // 构建路由
     let app = Router::new()
         // `GET /` 会执行
-        .route("/image/:spec/:url", get(generate))
-        // .layer(
-        //     ServiceBuilder::new()
-        //         .layer(HandleErrorLayer::new(handle_timeout_error))
-        //         .timeout(Duration::from_secs(10))
-        //         .load_shed()
-        //         .concurrency_limit(1024)
-        //         .layer(TraceLayer::new_for_http())
-        //         .layer(AddExtensionLayer::new(cache))
-        //         .layer(CompressionLayer::new())
-        //         .into_inner(),
-        // )
-        ;
+        .route("/image/:spec/:url", get(generate));
+    // .layer(
+    // ServiceBuilder::new()
+    //   .load_shed()
+    // .concurrency_limit(1024)
+    // .timeout(Duration::from_secs(10))
+    //.layer(TraceLayer::new_for_http)
+    //                 .layer(AddExtensionLayer::new(cache))
+    // .layer(CompressionLayer::new())
+    // .into_inner(),
+    // );
 
     // 运行web服务器
     let addr = "127.0.0.1:3000".parse().unwrap();
@@ -77,21 +74,6 @@ async fn main() {
         .await
         .unwrap();
 }
-
-
-// fn handle_timeout_error(err: BoxError) -> (StatusCode, String) {
-//     if err.is::<tower::timeout::error::Elapsed>() {
-//         (
-//             StatusCode::REQUEST_TIMEOUT,
-//             "Request took too long".to_string(),
-//         )
-//     } else {
-//         (
-//             StatusCode::INTERNAL_SERVER_ERROR,
-//             format!("Unhandled internal error: {}", err),
-//         )
-//     }
-// }
 
 // basic handler that responds with a static string
 async fn generate(
