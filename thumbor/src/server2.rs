@@ -1,9 +1,10 @@
 use anyhow::Result;
 use axum::{
+    error_handling::HandleErrorLayer,
     extract::{Extension, Path},
     http::{HeaderMap, HeaderValue, StatusCode},
     routing::get,
-    Router,
+    BoxError, Router,
 };
 use bytes::Bytes;
 use image::ImageOutputFormat;
@@ -28,10 +29,9 @@ use tracing::{info, instrument};
 mod engine;
 mod pb;
 
+use crate::engine::Engine;
 use engine::Photon;
 use pb::*;
-
-use crate::engine::Engine;
 
 // 参数使用serde做Deserialize, axum会自动识别并解析
 #[derive(Deserialize)]
@@ -47,20 +47,36 @@ async fn main() {
     // 初始化tracing
     tracing_subscriber::fmt::init();
     let cache: Cache = Arc::new(Mutex::new(LruCache::new(1024)));
+
+    // tower::ServiceBuilder can be used to combine multiple middleware:
+    let middleware_stack = ServiceBuilder::new()
+        .layer(AddExtensionLayer::new(cache))
+        .layer(TraceLayer::new_for_http())
+        .layer(HandleErrorLayer::new(|error: BoxError| async move {
+            if error.is::<tower::timeout::error::Elapsed>() {
+                Ok(StatusCode::REQUEST_TIMEOUT)
+            } else {
+                Err((
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    format!("Unhandled internal error: {}", error),
+                ))
+            }
+        }))
+        // Return an error after 10 seconds
+        .timeout(Duration::from_secs(10))
+        // Shed load if we're receiving too many requests
+        .load_shed()
+        // Process at most 1024 requests concurrently
+        .concurrency_limit(1024)
+        // Compress response bodies
+        .layer(CompressionLayer::new())
+        .into_inner();
+
     // 构建路由
     let app = Router::new()
         // `GET /` 会执行
-        .route("/image/:spec/:url", get(generate));
-    // .layer(
-    // ServiceBuilder::new()
-    //   .load_shed()
-    // .concurrency_limit(1024)
-    // .timeout(Duration::from_secs(10))
-    //.layer(TraceLayer::new_for_http)
-    //                 .layer(AddExtensionLayer::new(cache))
-    // .layer(CompressionLayer::new())
-    // .into_inner(),
-    // );
+        .route("/image/:spec/:url", get(generate))
+        .layer(middleware_stack);
 
     // 运行web服务器
     let addr = "127.0.0.1:3000".parse().unwrap();
@@ -86,7 +102,7 @@ async fn generate(
         .map_err(|_| StatusCode::BAD_REQUEST)?;
 
     let url = &percent_decode_str(&url).decode_utf8_lossy();
-    let data = retrieve_imsage(&url, cache)
+    let data = retrieve_imsage(url, cache)
         .await
         .map_err(|_| StatusCode::BAD_REQUEST)?;
 

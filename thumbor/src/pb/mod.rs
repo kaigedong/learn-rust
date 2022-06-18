@@ -1,9 +1,9 @@
 use base64::{decode_config, encode_config, URL_SAFE_NO_PAD};
 use photon_rs::transform::SamplingFilter;
 use prost::Message;
-use std::convert::TryFrom;
 
-mod abi; // 声明abi.rs
+// 声明abi.rs
+mod abi;
 pub use abi::*;
 
 impl ImageSpec {
@@ -32,7 +32,7 @@ impl TryFrom<&str> for ImageSpec {
 
 // 辅助函数, photon_rs相应的方法里需要字符串
 impl filter::Filter {
-    pub fn to_str(&self) -> Option<&'static str> {
+    pub fn to_str(self) -> Option<&'static str> {
         match self {
             filter::Filter::Unspecified => None,
             filter::Filter::Oceanic => Some("oceanic"),

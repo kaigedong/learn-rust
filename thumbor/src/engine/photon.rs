@@ -93,14 +93,12 @@ impl SpecTransform<&Resize> for Photon {
     fn transform(&mut self, op: &Resize) {
         let img = match resize::ResizeType::from_i32(op.rtype).unwrap() {
             resize::ResizeType::Normal => transform::resize(
-                &mut self.0,
+                &self.0,
                 op.width,
                 op.height,
                 resize::SampleFilter::from_i32(op.filter).unwrap().into(),
             ),
-            resize::ResizeType::SeamCarve => {
-                transform::seam_carve(&mut self.0, op.width, op.height)
-            }
+            resize::ResizeType::SeamCarve => transform::seam_carve(&self.0, op.width, op.height),
         };
         self.0 = img;
     }
@@ -121,7 +119,7 @@ fn image_to_buf(img: PhotonImage, format: ImageOutputFormat) -> Vec<u8> {
     let img_buffer = ImageBuffer::from_vec(width, height, raw_pixels).unwrap();
     let dynimage = DynamicImage::ImageRgb8(img_buffer);
 
-    let mut buffer =Cursor::new( Vec::with_capacity(32768));
+    let mut buffer = Cursor::new(Vec::with_capacity(32768));
     dynimage.write_to(&mut buffer, format).unwrap();
     buffer.into_inner()
 }
