@@ -1,2 +1,2 @@
 [workspace]
-members = ["httpie", "thumbor"]
+members = ["httpie", "thumbor", "queryer"]
