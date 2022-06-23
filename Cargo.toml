@@ -1,2 +1,8 @@
 [workspace]
-members = ["exercises/httpie", "exercises/thumbor", "concepts/smart-pointer", "concepts/lists", "concepts/macros"]
+members = [
+  "concepts/smart-pointer",
+  "concepts/lists",
+  "concepts/macros",
+  "exercises/httpie",
+  "exercises/thumbor",
+]
