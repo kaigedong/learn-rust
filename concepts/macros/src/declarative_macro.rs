@@ -4,12 +4,13 @@
 // macro_rules存在一些问题，[Rust计划在未来弃用它](https://github.com/rust-lang/rust/issues/39412)
 
 // 简化版的vec!
+// TODO: 可能由更好的做法
+#![allow(clippy::vec_init_then_push)]
 #[macro_export]
 macro_rules! vecm {
     ($($x:expr),*) => {
         {
-            // let mut temp_vec = Vec::new();
-            let mut temp_vec = vec![];
+            let mut temp_vec = Vec::new();
             $(
                 temp_vec.push($x);
             )*
