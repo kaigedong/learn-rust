@@ -1,0 +1,2 @@
+[workspace]
+members = ["exercises/green_threads"]
