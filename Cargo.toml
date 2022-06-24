@@ -6,4 +6,5 @@ members = [
   "concepts/macros/hello_macro",
   "exercises/httpie",
   "exercises/thumbor",
+  "exercises/green_threads",
 ]
