@@ -3,6 +3,7 @@ members = [
   "concepts/smart-pointer",
   "concepts/lists",
   "concepts/macros",
+  "concepts/macros/hello_macro",
   "exercises/httpie",
   "exercises/thumbor",
 ]
