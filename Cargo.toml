@@ -6,4 +6,6 @@ members = [
   "concepts/macros/hello_macro",
   "exercises/httpie",
   "exercises/thumbor",
+  "exercises/rust-full-stack/A01-simple-server-client/tcpclient",
+  "exercises/rust-full-stack/A01-simple-server-client/tcpserver",
 ]
