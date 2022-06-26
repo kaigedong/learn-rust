@@ -1,0 +1,21 @@
+[package]
+edition = "2021"
+name = "webservice"
+version = "0.1.0"
+# 当运行webservice时，如果不指定二进制文件，则默认运行下面的配置
+default-run = "actix-teacher-service"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+actix-rt = "2.7.0"
+actix-web = "4.0.1"
+chrono = { version = "0.4.19", features = ["serde"] }
+serde = { version = "1.0.136", features = ["derive"] }
+
+[[bin]]
+name = "actix-server1"
+path = "src/bin/server1.rs"
+
+[[bin]]
+name = "actix-teacher-service"
+path = "src/bin/teacher-service.rs"
