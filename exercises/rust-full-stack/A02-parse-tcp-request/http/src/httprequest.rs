@@ -49,6 +49,11 @@ pub struct HttpRequest {
 
 // impl From<&str> for Resource {}
 
+// 一个实际的请求：
+// GET / HTTP/1.1\r\n
+// Host: localhost:3000\r\n
+// User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0\r\n
+// Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image
 impl From<String> for HttpRequest {
     fn from(req: String) -> HttpRequest {
         let mut parsed_method = Method::Uninitialized;
@@ -82,6 +87,7 @@ impl From<String> for HttpRequest {
     }
 }
 
+// 将 "GET / HTTP/1.1" 转换成对应的三元组
 fn process_req_line(s: &str) -> (Method, Resource, Version) {
     let mut words = s.split_whitespace();
     let method = words.next().unwrap();
