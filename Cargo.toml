@@ -5,7 +5,7 @@ members = [
   "concepts/macros",
   "concepts/macros/hello_macro",
   "exercises/httpie",
-  "exercises/thumbor",
-  "exercises/rust-full-stack/A01-simple-server-client/tcpclient",
-  "exercises/rust-full-stack/A01-simple-server-client/tcpserver",
+  "exercises/thumbor", # "exercises/rust-full-stack/A01-simple-server-client/tcpclient",
+  "exercises/rust-full-stack/A01-simple-server-client/*",
+  "exercises/rust-full-stack/A02-parse-tcp-request/*",
 ]
