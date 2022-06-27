@@ -6,9 +6,9 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 # 为了使用TypedHeader加这个feature
-axum = {version = "0.5.9", features = ["headers"]}
+axum = { version = "0.5.9", features = ["headers"] }
 jsonwebtoken = "8" # 用于处理登录校验
 mime_guess = "2" # 通过文件拓展名，获取对应的媒体类型（MIME）
 rust-embed = "6" # 编译时将静态文件打包进Rust二进制
-serde = {version = "1", features = ["derive"]}
-tokio = {version = "1", features = ["full"]}
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
