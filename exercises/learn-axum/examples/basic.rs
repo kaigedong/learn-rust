@@ -61,7 +61,7 @@ struct TotdoStore {
 }
 
 #[derive(RustEmbed)]
-#[folder = "./my-app/build/"]
+#[folder = "my-app/build/"]
 struct Assets;
 
 // 实现IntoResponse
