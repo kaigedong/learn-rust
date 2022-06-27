@@ -1,0 +1,4 @@
+# for tokei
+package-lock.json
+/exercises/learn-axum/my-app/build/
+/exercises/learn-axum/my-app/README.md
