@@ -4,6 +4,7 @@ members = [
   "concepts/lists",
   "concepts/macros",
   "concepts/macros/hello_macro",
+  "concepts/refcell",
   "exercises/httpie",
   "exercises/thumbor",
   "exercises/rust-full-stack/A01-simple-server-client/*",
