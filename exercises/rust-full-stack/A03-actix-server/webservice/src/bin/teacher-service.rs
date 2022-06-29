@@ -8,6 +8,8 @@ mod models;
 mod routers;
 #[path = "../state.rs"]
 mod state;
+#[path = "../errors.rs"]
+mod errors;
 
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
