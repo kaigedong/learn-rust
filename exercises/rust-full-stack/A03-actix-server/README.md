@@ -81,3 +81,9 @@ Actix-Web 把错误转化为 HTTP Response
 3. 为自定义错误类型实现 ResponseError trait
 4. 在 handler 里返回自定义错误类型
 5. Actix 会把错误转化为 HTTP 响应
+
+## 在当前目录下，存在两个 bin 时，sqlx offline 的方法：
+
+```sh
+cargo sqlx prepare -- --bin actix-teacher-service
+```
