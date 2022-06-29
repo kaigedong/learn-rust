@@ -14,7 +14,7 @@ pub async fn get_courses_for_teacher_db(
     .fetch_all(pool)
     .await?;
 
-    let courses = rows
+    let courses: Vec<Course> = rows
         .iter()
         .map(|r| Course {
             id: Some(r.id),
@@ -66,7 +66,7 @@ pub async fn post_new_course_db(pool: &PgPool, new_course: Course) -> Result<Cou
         new_course.name
     )
     .fetch_one(pool)
-    .await?;
+    .await;
     if let Ok(row) = row {
         Ok(Course {
             id: Some(row.id),

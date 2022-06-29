@@ -34,11 +34,14 @@ impl MyError {
     }
 }
 
+// Errors that can generate responses: 需要实现 ResponseError + Display
+// 就可以将自定义错误转换成HttpResposne Error
+// 实现actix_web::error下的trait
 impl error::ResponseError for MyError {
     fn status_code(&self) -> StatusCode {
         match self {
-            MyError::DBError(msg) | MyError::ActixError(msg) => StatusCode::INTERNAL_SERVER_ERROR,
-            MyError::NotFound(msg) => StatusCode::NOT_FOUND,
+            MyError::DBError(_msg) | MyError::ActixError(_msg) => StatusCode::INTERNAL_SERVER_ERROR,
+            MyError::NotFound(_msg) => StatusCode::NOT_FOUND,
         }
     }
     fn error_response(&self) -> HttpResponse {
@@ -49,7 +52,9 @@ impl error::ResponseError for MyError {
 }
 
 impl fmt::Display for MyError {
+    #[allow(clippy::recursive_format_impl)]
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        // NOTE: 可能会造成递归调用
         write!(f, "{}", self)
     }
 }
@@ -61,7 +66,7 @@ impl From<actix_web::error::Error> for MyError {
     }
 }
 
-// Same as before
+// sqlx错误可以转换为MyError类型
 impl From<SQLxError> for MyError {
     fn from(err: SQLxError) -> Self {
         MyError::DBError(err.to_string())

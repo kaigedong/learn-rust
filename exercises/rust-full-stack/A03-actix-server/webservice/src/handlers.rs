@@ -1,11 +1,8 @@
-use crate::errors::MyError;
-
 use super::db_access::*;
+use super::errors::MyError;
 use super::models::Course;
 use super::state::AppState;
 use actix_web::{web, HttpResponse};
-
-// mod db_access;
 
 pub async fn health_check_handler(app_state: web::Data<AppState>) -> HttpResponse {
     let health_check_response = &app_state.health_check_response;
@@ -71,7 +68,6 @@ mod tests {
             health_check_response: "".to_string(),
             visit_count: Mutex::new(0),
             db: db_pool,
-            // courses: Mutex::new(vec![]),
         });
 
         let resp = new_course(course, app_state).await.unwrap();
@@ -88,7 +84,6 @@ mod tests {
             health_check_response: "".to_string(),
             visit_count: Mutex::new(0),
             db: db_pool,
-            // courses: Mutex::new(vec![]),
         });
         let teacher_id: web::Path<(usize,)> = web::Path::from((1,));
         let resp = get_courses_for_teacher(app_state, teacher_id)
@@ -107,7 +102,6 @@ mod tests {
             health_check_response: "".to_string(),
             visit_count: Mutex::new(0),
             db: db_pool,
-            // courses: Mutex::new(vec![]),
         });
         let params: web::Path<(usize, usize)> = web::Path::from((1, 1));
         let resp = get_course_detail(app_state, params).await.unwrap();
