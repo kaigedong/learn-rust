@@ -30,6 +30,18 @@ insert into course
        (id, teacher_id, name, time)
 values(2, 1, 'Second course', '2022-01-18 05:45:00');
 
+create table teacher
+(
+    id serial primary key,
+    name varchar(100),
+    picture_url varchar(200),
+    profile varchar(2000)
+);
+
+insert into teacher
+        (id, name, picture_url, profile)
+values(1, 'yali', 'bai.com', 'A cute girl');
+
 \d # 查看表格是否创建成功
 \d course; # 查看表格信息
 SELECT * FROM course; # 查询表格数据

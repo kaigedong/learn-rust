@@ -89,6 +89,80 @@
     },
     "query": "UPDATE course SET name=$1,description=$2,format=$3,structure=$4,duration=$5,price=$6,language=$7,level=$8\n        WHERE teacher_id=$9 AND id=$10\n        RETURNING id,teacher_id,name,time,description,format,structure,duration,price,language,level"
   },
+  "25f9bf4bf69e26c6497b5890e04199bafd19febef221faa1589c6576deb64e07": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "picture_url",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profile",
+          "ordinal": 3,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "SELECT id, name, picture_url, profile FROM teacher where id = $1"
+  },
+  "53cf43734630c15c9fc3c649e832c35773f8fba95b8527cfad4e39ce6e563cfe": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "picture_url",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profile",
+          "ordinal": 3,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "SELECT id, name, picture_url, profile FROM teacher"
+  },
   "7c00990a9618bbba28da33783f62ea667e7271a58ecbb00c88b401bc78577fa8": {
     "describe": {
       "columns": [
@@ -270,6 +344,44 @@
     },
     "query": "INSERT INTO course (teacher_id, name, description, format, structure, duration, price, language, level)\n        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)\n        RETURNING id, teacher_id, name, time, description, format, structure, duration, price, language, level"
   },
+  "bbcfd73af45ffa3e62dbf179f3d7f9dd95c54301925db850398bda7adcf44329": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "picture_url",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profile",
+          "ordinal": 3,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "SELECT id, name, picture_url, profile FROM teacher where id=$1"
+  },
   "eabc85427abd7bcd7e2be87a846a8c304d248f363d023791272db3eb4695ad18": {
     "describe": {
       "columns": [
@@ -431,5 +543,86 @@
       }
     },
     "query": "SELECT * FROM course\n        WHERE teacher_id = $1 and id = $2"
+  },
+  "f52bad6c2ca5109f38f791762905eabc436484e5e82855b8f72eb25615dc217c": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "picture_url",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profile",
+          "ordinal": 3,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Int4"
+        ]
+      }
+    },
+    "query": "UPDATE teacher SET name=$1, picture_url=$2, profile=$3 WHERE id=$4\n        RETURNING id, name, picture_url, profile"
+  },
+  "f9758b3635c6204b2aeab5c905021a0ac0b8986430c7c42e3d10c7eaadb5f60e": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "picture_url",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "profile",
+          "ordinal": 3,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar",
+          "Varchar"
+        ]
+      }
+    },
+    "query": "INSERT INTO teacher (name, picture_url, profile) VALUES ($1,$2,$3)\n        RETURNING id, name, picture_url, profile"
   }
 }
