@@ -1,6 +1,6 @@
 {
   "db": "PostgreSQL",
-  "29a1e1760e6bb5306c1f12b8d9ea30a4b5322b292132093e79aaae1722541502": {
+  "1095af91f2c9d29b12b7f9e27cc17be9ad91d1dfbeca403bb9417a279032c24c": {
     "describe": {
       "columns": [
         {
@@ -22,14 +22,157 @@
           "name": "time",
           "ordinal": 3,
           "type_info": "Timestamp"
+        },
+        {
+          "name": "description",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "format",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "structure",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "duration",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "price",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "language",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "level",
+          "ordinal": 10,
+          "type_info": "Varchar"
         }
       ],
       "nullable": [
         false,
         false,
         false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true
       ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Int4",
+          "Varchar",
+          "Varchar",
+          "Int4",
+          "Int4"
+        ]
+      }
+    },
+    "query": "UPDATE course SET name=$1,description=$2,format=$3,structure=$4,duration=$5,price=$6,language=$7,level=$8\n        WHERE teacher_id=$9 AND id=$10\n        RETURNING id,teacher_id,name,time,description,format,structure,duration,price,language,level"
+  },
+  "7c00990a9618bbba28da33783f62ea667e7271a58ecbb00c88b401bc78577fa8": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "teacher_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "time",
+          "ordinal": 3,
+          "type_info": "Timestamp"
+        },
+        {
+          "name": "description",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "format",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "structure",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "duration",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "price",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "language",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "level",
+          "ordinal": 10,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "SELECT * FROM course WHERE teacher_id = $1"
+  },
+  "966a9b6e540268c794dccf7bf66f2ab4f5bed5343aaea0996ca3f508769b6d88": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
       "parameters": {
         "Left": [
           "Int4",
@@ -37,9 +180,9 @@
         ]
       }
     },
-    "query": "SELECT id, teacher_id, name, time\n        FROM course\n        WHERE teacher_id = $1 and id = $2"
+    "query": "DELETE FROM course where teacher_id = $1 and id = $2"
   },
-  "307ae2270f197b1270f22fdc1acc141f23323de7639ba310c02d59182bccac27": {
+  "b7937c3c83423680329b17fccdf254bb4b04fd2e2d27a9e9d180349e32d6c569": {
     "describe": {
       "columns": [
         {
@@ -61,60 +204,232 @@
           "name": "time",
           "ordinal": 3,
           "type_info": "Timestamp"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false,
-        true
-      ],
-      "parameters": {
-        "Left": [
-          "Int4"
-        ]
-      }
-    },
-    "query": "SELECT id, teacher_id, name, time\n        FROM course WHERE teacher_id = $1"
-  },
-  "f70e9d4fcd8b596de9e4966c328bc12250888435af3071bef25e63678e5da238": {
-    "describe": {
-      "columns": [
-        {
-          "name": "id",
-          "ordinal": 0,
-          "type_info": "Int4"
         },
         {
-          "name": "teacher_id",
-          "ordinal": 1,
-          "type_info": "Int4"
-        },
-        {
-          "name": "name",
-          "ordinal": 2,
+          "name": "description",
+          "ordinal": 4,
           "type_info": "Varchar"
         },
         {
-          "name": "time",
-          "ordinal": 3,
-          "type_info": "Timestamp"
+          "name": "format",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "structure",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "duration",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "price",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "language",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "level",
+          "ordinal": 10,
+          "type_info": "Varchar"
         }
       ],
       "nullable": [
         false,
         false,
         false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true
       ],
       "parameters": {
         "Left": [
           "Int4",
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Varchar",
+          "Varchar",
           "Int4",
+          "Varchar",
           "Varchar"
         ]
       }
     },
-    "query": "INSERT INTO course (id, teacher_id, name)\n        VALUES ($1, $2, $3)\n        RETURNING id, teacher_id, name, time"
+    "query": "INSERT INTO course (teacher_id, name, description, format, structure, duration, price, language, level)\n        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)\n        RETURNING id, teacher_id, name, time, description, format, structure, duration, price, language, level"
+  },
+  "eabc85427abd7bcd7e2be87a846a8c304d248f363d023791272db3eb4695ad18": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "teacher_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "time",
+          "ordinal": 3,
+          "type_info": "Timestamp"
+        },
+        {
+          "name": "description",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "format",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "structure",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "duration",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "price",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "language",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "level",
+          "ordinal": 10,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4",
+          "Int4"
+        ]
+      }
+    },
+    "query": "SELECT * FROM course where teacher_id = $1 and id = $2"
+  },
+  "efe4bca8687af094d658f6646daea777a00f90b891d6d222f8688b9a57de65e6": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "teacher_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "time",
+          "ordinal": 3,
+          "type_info": "Timestamp"
+        },
+        {
+          "name": "description",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "format",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "structure",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "duration",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "price",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "language",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "level",
+          "ordinal": 10,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4",
+          "Int4"
+        ]
+      }
+    },
+    "query": "SELECT * FROM course\n        WHERE teacher_id = $1 and id = $2"
   }
 }
