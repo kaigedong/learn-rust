@@ -1,22 +1,13 @@
-use super::db_access::*;
-use super::errors::MyError;
-use super::models::Course;
-use super::state::AppState;
+use crate::errors::MyError;
+use crate::models::course::Course;
+use crate::state::AppState;
 use actix_web::{web, HttpResponse};
-
-pub async fn health_check_handler(app_state: web::Data<AppState>) -> HttpResponse {
-    let health_check_response = &app_state.health_check_response;
-    let mut visit_count = app_state.visit_count.lock().unwrap();
-    let response = format!("{} {} times", health_check_response, visit_count);
-    *visit_count += 1;
-    HttpResponse::Ok().json(&response)
-}
 
 pub async fn new_course(
     new_course: web::Json<Course>,
     app_state: web::Data<AppState>,
 ) -> Result<HttpResponse, MyError> {
-    post_new_course_db(&app_state.db, new_course.into())
+    crate::dbaccess::course::post_new_course_db(&app_state.db, new_course.into())
         .await
         .map(|course| HttpResponse::Ok().json(course))
 }
@@ -26,7 +17,7 @@ pub async fn get_courses_for_teacher(
     params: web::Path<(usize,)>,
 ) -> Result<HttpResponse, MyError> {
     let teacher_id = i32::try_from(params.0).unwrap();
-    get_courses_for_teacher_db(&app_state.db, teacher_id)
+    crate::dbaccess::course::get_courses_for_teacher_db(&app_state.db, teacher_id)
         .await
         .map(|courses| HttpResponse::Ok().json(courses))
 }
@@ -37,7 +28,7 @@ pub async fn get_course_detail(
 ) -> Result<HttpResponse, MyError> {
     let teacher_id = i32::try_from(params.0).unwrap();
     let course_id = i32::try_from(params.1).unwrap();
-    get_course_details_db(&app_state.db, teacher_id, course_id)
+    crate::dbaccess::course::get_course_details_db(&app_state.db, teacher_id, course_id)
         .await
         .map(|course| HttpResponse::Ok().json(course))
 }
@@ -51,6 +42,7 @@ mod tests {
     use std::env;
     use std::sync::Mutex;
 
+    #[ignore]
     #[actix_rt::test]
     async fn post_course_test() {
         dotenv().ok();
@@ -74,6 +66,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_all_courses_success() {
         dotenv().ok();
@@ -92,6 +85,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_one_course_success() {
         dotenv().ok();

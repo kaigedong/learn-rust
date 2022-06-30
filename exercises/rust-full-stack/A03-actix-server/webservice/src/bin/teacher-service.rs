@@ -1,11 +1,12 @@
-#[path = "../db_access.rs"]
-mod db_access;
+#[path = "../dbaccess/mod.rs"]
+mod dbaccess;
+#[path = "../handlers/mod.rs"]
+mod handlers;
+#[path = "../models/mod.rs"]
+mod models;
+
 #[path = "../errors.rs"]
 mod errors;
-#[path = "../handlers.rs"]
-mod handlers;
-#[path = "../models.rs"]
-mod models;
 #[path = "../routers.rs"]
 mod routers;
 #[path = "../state.rs"]

@@ -1,5 +1,5 @@
-use super::errors::MyError;
-use crate::models::Course;
+use crate::errors::MyError;
+use crate::models::course::Course;
 use sqlx::postgres::PgPool;
 
 pub async fn get_courses_for_teacher_db(
