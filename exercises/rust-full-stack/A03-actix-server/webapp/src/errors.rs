@@ -1,4 +1,4 @@
-use actix_web::{error, http::StatusCode, HttpResponse, Result};
+use actix_web::Result;
 use serde::Serialize;
 use std::fmt;
 
@@ -17,6 +17,7 @@ pub struct MyErrorResponse {
 
 impl std::error::Error for MyError {}
 
+#[allow(dead_code)]
 impl MyError {
     fn error_response(&self) -> String {
         match self {
@@ -37,6 +38,7 @@ impl MyError {
 }
 
 impl fmt::Display for MyError {
+    #[allow(clippy::recursive_format_impl)]
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         write!(f, "{}", self)
     }
