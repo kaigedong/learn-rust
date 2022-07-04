@@ -23,6 +23,10 @@ name = "a110-balanced-binary-tree"
 version = "0.1.0"
 
 [[package]]
+name = "a125-valid-palindrome"
+version = "0.1.0"
+
+[[package]]
 name = "a144-binary-tree-preorder-traversal"
 version = "0.1.0"
 
