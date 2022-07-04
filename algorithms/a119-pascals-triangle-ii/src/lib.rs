@@ -14,15 +14,16 @@ impl Solution {
     }
 
     fn get_val(row_index: i32, col_index: i32, vals: &mut HashMap<(i32, i32), i32>) -> i32 {
-        if row_index == 0 {
+        if row_index == 0 || col_index == 0 || col_index == row_index {
             return 1;
         }
-        if col_index == 0 {
-            return 1;
-        }
-        if col_index == row_index {
-            return 1;
-        }
+
+        // TODO: 等待这个特性稳定
+        // let left_before = vals.try_insert(
+        //     (row_index - 1, col_index - 1),
+        //     Self::get_val(row_index - 1, col_index - 1, vals),
+        // );
+
         let left_before: i32 = if vals.contains_key(&(row_index - 1, col_index - 1)) {
             *vals.get(&(row_index - 1, col_index - 1)).unwrap()
         } else {
