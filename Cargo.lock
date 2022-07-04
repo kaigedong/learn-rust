@@ -27,6 +27,10 @@ name = "a144-binary-tree-preorder-traversal"
 version = "0.1.0"
 
 [[package]]
+name = "a145-binary-tree-postorder-traversal"
+version = "0.1.0"
+
+[[package]]
 name = "a53-maximum-subarray"
 version = "0.1.0"
 
