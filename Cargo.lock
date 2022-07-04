@@ -27,6 +27,10 @@ name = "a111-minimum-depth-of-binary-tree"
 version = "0.1.0"
 
 [[package]]
+name = "a112-path-sum"
+version = "0.1.0"
+
+[[package]]
 name = "a125-valid-palindrome"
 version = "0.1.0"
 
