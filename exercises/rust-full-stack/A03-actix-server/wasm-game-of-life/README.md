@@ -32,7 +32,7 @@ wasm-pack build
 - 生成前端
 
 ```console
-❯ npm init wasm-app www
+❯cd wasm-game-of-life && npm init wasm-app www
 Need to install the following packages:
   create-wasm-app@0.1.0
 Ok to proceed? (y) y
