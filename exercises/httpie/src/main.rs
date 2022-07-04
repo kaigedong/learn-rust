@@ -161,12 +161,11 @@ async fn main() -> Result<()> {
     let client = reqwest::Client::builder()
         .default_headers(headers)
         .build()?;
-    let result = match opts.subcmd {
+    match opts.subcmd {
         SubCommand::Get(ref args) => get(client, args).await?,
         SubCommand::Post(ref args) => post(client, args).await?,
     };
-
-    Ok(result)
+    Ok(())
 }
 
 fn print_syntect(s: &str, ext: &str) {
