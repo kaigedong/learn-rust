@@ -89,7 +89,7 @@ mod tests {
             visit_count: Mutex::new(0),
             db: db_pool,
         });
-        let params: web::Path<i32> = web::Path::from(1);
+        let params: web::Path<i32> = web::Path::from(2);
         let resp = get_teacher_details(app_state, params).await.unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
     }

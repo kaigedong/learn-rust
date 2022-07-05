@@ -75,15 +75,12 @@ pub async fn main() -> Result<(), JsValue> {
         let cid = c.id;
         let click_closure = Closure::wrap(Box::new(move |_event: web_sys::MouseEvent| {
             let r = confirm(format!("确认删除 ID 为{}的课程?", cid).as_str());
-            match r {
-                true => {
-                    // 将异步函数放到当前线程来执行
-                    spawn_local(delete_course(1, cid));
-                    alert("删除成功！");
-                    // 刷新页面
-                    web_sys::window().unwrap().location().reload().unwrap();
-                }
-                _ => {}
+            if r {
+                // 将异步函数放到当前线程来执行
+                spawn_local(delete_course(1, cid));
+                alert("删除成功！");
+                // 刷新页面
+                web_sys::window().unwrap().location().reload().unwrap();
             }
         }) as Box<dyn Fn(_)>);
 

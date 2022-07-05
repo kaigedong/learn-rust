@@ -170,9 +170,10 @@ mod tests {
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
     }
-    #[ignore]
+    // #[ignore]
     #[actix_rt::test]
     async fn delete_course_success() {
+        dotenv().ok();
         let db_url = env::var("DATABASE_URL").expect("DATABASE_URL 环境变量获取失败");
         let db_pool = PgPoolOptions::new().connect(&db_url).await.unwrap();
         let app_state: web::Data<AppState> = web::Data::new(AppState {
@@ -187,6 +188,7 @@ mod tests {
 
     #[actix_rt::test]
     async fn delete_course_failure() {
+        dotenv().ok();
         let db_url = env::var("DATABASE_URL").expect("DATABASE_URL 环境变量获取失败");
         let db_pool = PgPoolOptions::new().connect(&db_url).await.unwrap();
         let app_state: web::Data<AppState> = web::Data::new(AppState {

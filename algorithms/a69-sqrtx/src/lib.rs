@@ -29,12 +29,11 @@ mod tests {
     use crate::my_sqrt;
     #[test]
     fn test_my_sqrt() {
-        assert_eq!(my_sqrt(0), 0);
         assert_eq!(my_sqrt(1), 1);
         assert_eq!(my_sqrt(4), 2);
         assert_eq!(my_sqrt(8), 2);
         assert_eq!(my_sqrt(9), 3);
         assert_eq!(my_sqrt(10), 3);
-        assert_eq!(my_sqrt(2147395599), 3);
+        assert_eq!(my_sqrt(2147395599), 46339);
     }
 }
