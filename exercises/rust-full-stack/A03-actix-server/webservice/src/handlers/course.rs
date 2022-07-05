@@ -65,6 +65,7 @@ mod tests {
     use std::env;
     use std::sync::Mutex;
 
+    #[ignore]
     #[actix_rt::test]
     async fn post_course_test() {
         dotenv().ok();
@@ -92,6 +93,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_all_courses_success() {
         dotenv().ok();
@@ -110,6 +112,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_one_course_success() {
         dotenv().ok();
@@ -126,6 +129,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_all_courses_failure() {
         dotenv().ok();
@@ -143,6 +147,8 @@ mod tests {
             Err(err) => assert_eq!(err.status_code(), StatusCode::NOT_FOUND),
         };
     }
+
+    #[ignore]
     #[actix_rt::test]
     async fn update_course_success() {
         dotenv().ok();
@@ -170,7 +176,8 @@ mod tests {
             .unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
     }
-    // #[ignore]
+
+    #[ignore]
     #[actix_rt::test]
     async fn delete_course_success() {
         dotenv().ok();
@@ -186,6 +193,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn delete_course_failure() {
         dotenv().ok();

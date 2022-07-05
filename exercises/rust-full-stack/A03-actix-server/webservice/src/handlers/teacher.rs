@@ -64,6 +64,7 @@ mod tests {
     use std::env;
     use std::sync::Mutex;
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_all_teachers_success_test() {
         dotenv().ok();
@@ -79,6 +80,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn get_tutor_detail_success_test() {
         dotenv().ok();
@@ -94,6 +96,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn post_teacher_success_test() {
         dotenv().ok();
@@ -114,6 +117,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
+    #[ignore]
     #[actix_rt::test]
     async fn delete_teacher_success_test() {
         dotenv().ok();
