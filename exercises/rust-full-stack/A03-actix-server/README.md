@@ -87,3 +87,9 @@ Actix-Web 把错误转化为 HTTP Response
 ```sh
 cargo sqlx prepare -- --bin actix-teacher-service
 ```
+
+## 最后一步：部署
+
+(cargo build 不能对wasm进行构建)
+
+wasm-pack build --release
