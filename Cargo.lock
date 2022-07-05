@@ -35,6 +35,10 @@ name = "a119-pascals-triangle-ii"
 version = "0.1.0"
 
 [[package]]
+name = "a121-best-time-to-buy-and-sell-stock"
+version = "0.1.0"
+
+[[package]]
 name = "a125-valid-palindrome"
 version = "0.1.0"
 
