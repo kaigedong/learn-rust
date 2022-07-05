@@ -16,5 +16,5 @@ extern "C" {
 #[wasm_bindgen]
 pub fn greet(s: &str) {
     // as_str: String -> &str
-    alert(format!("Hello {}",s).as_str());
+    alert(format!("Hello {}", s).as_str());
 }
