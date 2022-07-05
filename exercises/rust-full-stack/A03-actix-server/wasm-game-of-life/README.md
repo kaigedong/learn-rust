@@ -56,7 +56,7 @@ Ok to proceed? (y) y
 cd www && npm install
 ```
 
-- www/index.js 中有wasm调用的示例：
+- www/index.js 中有 wasm 调用的示例：
 
 ```JavaScript
 import * as wasm from "hello-wasm-pack";
@@ -83,8 +83,6 @@ npm run start
 
 ℹ ｢wds｣: Project is running at http://localhost:8080/
 ```
-
-
 
 <div align="center">
 
