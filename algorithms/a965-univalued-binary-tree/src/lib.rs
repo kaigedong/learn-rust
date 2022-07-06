@@ -40,7 +40,7 @@ impl Solution {
                     root.val == left.borrow().val && root.val == right.borrow().val
                 }
                 (Some(node), None) | (None, Some(node)) => root.val == node.borrow().val,
-                (None, None) => return true,
+                (None, None) => true,
             };
 
             return is_equal_node
