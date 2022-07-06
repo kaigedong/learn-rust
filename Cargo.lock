@@ -51,6 +51,10 @@ name = "a145-binary-tree-postorder-traversal"
 version = "0.1.0"
 
 [[package]]
+name = "a2236-root-equals-sum-of-children"
+version = "0.1.0"
+
+[[package]]
 name = "a404-sum-of-left-leaves"
 version = "0.1.0"
 
