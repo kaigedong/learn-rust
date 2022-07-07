@@ -63,6 +63,10 @@ name = "a2236-root-equals-sum-of-children"
 version = "0.1.0"
 
 [[package]]
+name = "a226-invert-binary-tree"
+version = "0.1.0"
+
+[[package]]
 name = "a231-power-of-two"
 version = "0.1.0"
 
