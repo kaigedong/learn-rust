@@ -71,6 +71,10 @@ name = "a235-lowest-common-ancestor-of-a-binary-search-tree"
 version = "0.1.0"
 
 [[package]]
+name = "a326-power-of-three"
+version = "0.1.0"
+
+[[package]]
 name = "a342-power-of-four"
 version = "0.1.0"
 
