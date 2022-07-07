@@ -13,7 +13,7 @@ impl Solution {
     }
 
     // 贪心算法
-    fn max_profit_helper(earned: &Vec<i32>) -> i32 {
+    fn max_profit_helper(earned: &[i32]) -> i32 {
         let mut max_seen = 0;
         let mut max_current = 0;
 

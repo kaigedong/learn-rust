@@ -17,6 +17,7 @@ members = [
   "algorithms/a201-300/*",
   "algorithms/a301-400/*",
   "algorithms/a401-500/*",
+  "algorithms/a501-600/*",
   "algorithms/a901-1000/*",
   "algorithms/a2201-2300/*",
   "algorithms/offer/*",
