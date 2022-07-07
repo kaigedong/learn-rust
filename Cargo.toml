@@ -12,7 +12,14 @@ members = [
   "exercises/rust-full-stack/A03-actix-server/*",
   "exercises/rust-full-stack/A04-connect-db/*",
   "exercises/learn-axum",
-  "algorithms/*",
+  "algorithms/a1-100/*",
+  "algorithms/a101-200/*",
+  "algorithms/a201-300/*",
+  "algorithms/a301-400/*",
+  "algorithms/a401-500/*",
+  "algorithms/a901-1000/*",
+  "algorithms/a2201-2300/*",
+  "algorithms/offer/*",
 ]
 
 # [profile.release]
