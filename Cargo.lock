@@ -63,6 +63,10 @@ name = "a202-happy-number"
 version = "0.1.0"
 
 [[package]]
+name = "a222-count-complete-tree-nodes"
+version = "0.1.0"
+
+[[package]]
 name = "a2236-root-equals-sum-of-children"
 version = "0.1.0"
 
