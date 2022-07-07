@@ -55,6 +55,10 @@ name = "a145-binary-tree-postorder-traversal"
 version = "0.1.0"
 
 [[package]]
+name = "a202-happy-number"
+version = "0.1.0"
+
+[[package]]
 name = "a2236-root-equals-sum-of-children"
 version = "0.1.0"
 
