@@ -33,7 +33,7 @@ impl Solution {
         sum_before: i32,
         target_sum: i32,
     ) -> bool {
-        if let Some(root) = root {
+        root.map_or(false, |root| {
             let root = root.borrow();
             let val = root.val;
             let current_sum = val + sum_before;
@@ -45,10 +45,8 @@ impl Solution {
                 return true;
             }
 
-            return Self::has_path_sum_helper(root.left.as_deref(), current_sum, target_sum)
-                || Self::has_path_sum_helper(root.right.as_deref(), current_sum, target_sum);
-        } else {
-            false
-        }
+            Self::has_path_sum_helper(root.left.as_deref(), current_sum, target_sum)
+                || Self::has_path_sum_helper(root.right.as_deref(), current_sum, target_sum)
+        })
     }
 }

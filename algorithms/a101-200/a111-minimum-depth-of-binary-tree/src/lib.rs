@@ -30,7 +30,7 @@ impl Solution {
     // 计算子树深度
     // 注意，左右节点均为空时，才算叶子节点，这时候返回
     fn min_depth_helper(root: Option<&RefCell<TreeNode>>) -> i32 {
-        if let Some(root) = root {
+        root.map_or(0, |root| {
             let root = root.borrow();
             let left = root.left.as_deref();
             let right = root.right.as_deref();
@@ -50,8 +50,6 @@ impl Solution {
                     i32::min(left_depth + 1, right_depth + 1)
                 }
             }
-        } else {
-            0
-        }
+        })
     }
 }
