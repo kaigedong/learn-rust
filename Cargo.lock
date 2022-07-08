@@ -107,6 +107,10 @@ name = "a53-maximum-subarray"
 version = "0.1.0"
 
 [[package]]
+name = "a543-diameter-of-binary-tree"
+version = "0.1.0"
+
+[[package]]
 name = "a67-add-binary"
 version = "0.1.0"
 
