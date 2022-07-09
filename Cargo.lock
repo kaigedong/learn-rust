@@ -143,6 +143,10 @@ name = "a69-sqrtx"
 version = "0.1.0"
 
 [[package]]
+name = "a746-min-cost-climbing-stairs"
+version = "0.1.0"
+
+[[package]]
 name = "a965-univalued-binary-tree"
 version = "0.1.0"
 
