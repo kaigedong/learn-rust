@@ -123,6 +123,10 @@ name = "a617-merge-two-binary-trees"
 version = "0.1.0"
 
 [[package]]
+name = "a637-average-of-levels-in-binary-tree"
+version = "0.1.0"
+
+[[package]]
 name = "a67-add-binary"
 version = "0.1.0"
 
