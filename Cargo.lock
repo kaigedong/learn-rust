@@ -115,6 +115,10 @@ name = "a543-diameter-of-binary-tree"
 version = "0.1.0"
 
 [[package]]
+name = "a617-merge-two-binary-trees"
+version = "0.1.0"
+
+[[package]]
 name = "a67-add-binary"
 version = "0.1.0"
 
