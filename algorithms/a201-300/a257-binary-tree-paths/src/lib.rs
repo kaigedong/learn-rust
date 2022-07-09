@@ -33,7 +33,7 @@ impl Solution {
                 out.push(prefix);
             } else {
                 Self::binary_tree_paths_helper(root.left.as_deref(), prefix.clone(), &mut out);
-                Self::binary_tree_paths_helper(root.right.as_deref(), prefix.clone(), &mut out);
+                Self::binary_tree_paths_helper(root.right.as_deref(), prefix, &mut out);
             }
         });
         out
