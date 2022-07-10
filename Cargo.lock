@@ -15,6 +15,10 @@ name = "a102-binary-tree-level-order-traversal"
 version = "0.1.0"
 
 [[package]]
+name = "a103-binary-tree-zigzag-level-order-traversal"
+version = "0.1.0"
+
+[[package]]
 name = "a104-maximum-depth-of-binary-tree"
 version = "0.1.0"
 
