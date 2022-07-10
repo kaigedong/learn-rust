@@ -3,162 +3,6 @@
 version = 3
 
 [[package]]
-name = "a100-same-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a101-symmetric-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a102-binary-tree-level-order-traversal"
-version = "0.1.0"
-
-[[package]]
-name = "a103-binary-tree-zigzag-level-order-traversal"
-version = "0.1.0"
-
-[[package]]
-name = "a104-maximum-depth-of-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a107-binary-tree-level-order-traversal-ii"
-version = "0.1.0"
-
-[[package]]
-name = "a108-convert-sorted-array-to-binary-search-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a110-balanced-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a111-minimum-depth-of-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a112-path-sum"
-version = "0.1.0"
-
-[[package]]
-name = "a119-pascals-triangle-ii"
-version = "0.1.0"
-
-[[package]]
-name = "a121-best-time-to-buy-and-sell-stock"
-version = "0.1.0"
-
-[[package]]
-name = "a125-valid-palindrome"
-version = "0.1.0"
-
-[[package]]
-name = "a144-binary-tree-preorder-traversal"
-version = "0.1.0"
-
-[[package]]
-name = "a145-binary-tree-postorder-traversal"
-version = "0.1.0"
-
-[[package]]
-name = "a199-binary-tree-right-side-view"
-version = "0.1.0"
-
-[[package]]
-name = "a202-happy-number"
-version = "0.1.0"
-
-[[package]]
-name = "a222-count-complete-tree-nodes"
-version = "0.1.0"
-
-[[package]]
-name = "a2236-root-equals-sum-of-children"
-version = "0.1.0"
-
-[[package]]
-name = "a226-invert-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a231-power-of-two"
-version = "0.1.0"
-
-[[package]]
-name = "a235-lowest-common-ancestor-of-a-binary-search-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a257-binary-tree-paths"
-version = "0.1.0"
-
-[[package]]
-name = "a28-dui-cheng-de-er-cha-shu-lcof"
-version = "0.1.0"
-
-[[package]]
-name = "a326-power-of-three"
-version = "0.1.0"
-
-[[package]]
-name = "a342-power-of-four"
-version = "0.1.0"
-
-[[package]]
-name = "a404-sum-of-left-leaves"
-version = "0.1.0"
-
-[[package]]
-name = "a50-powx-n"
-version = "0.1.0"
-
-[[package]]
-name = "a513-find-bottom-left-tree-value"
-version = "0.1.0"
-
-[[package]]
-name = "a53-maximum-subarray"
-version = "0.1.0"
-
-[[package]]
-name = "a54-er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof"
-version = "0.1.0"
-
-[[package]]
-name = "a543-diameter-of-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a617-merge-two-binary-trees"
-version = "0.1.0"
-
-[[package]]
-name = "a637-average-of-levels-in-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a67-add-binary"
-version = "0.1.0"
-
-[[package]]
-name = "a69-sqrtx"
-version = "0.1.0"
-
-[[package]]
-name = "a746-min-cost-climbing-stairs"
-version = "0.1.0"
-
-[[package]]
-name = "a965-univalued-binary-tree"
-version = "0.1.0"
-
-[[package]]
-name = "a98-validate-binary-search-tree"
-version = "0.1.0"
-
-[[package]]
 name = "ab_glyph_rasterizer"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -432,6 +276,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "algorithms"
+version = "0.1.0"
+
+[[package]]
 name = "alloc-no-stdlib"
 version = "2.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -618,10 +466,6 @@ name = "base64"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
-
-[[package]]
-name = "binary-tree-inorder-traversal"
-version = "0.1.0"
 
 [[package]]
 name = "bincode"
@@ -2267,14 +2111,6 @@ checksum = "2819ce041d2ee131036f4fc9d6ae7ae125a3a40e97ba64d04fe799ad9dabbb44"
 dependencies = [
  "libc",
 ]
-
-[[package]]
-name = "of27-er-cha-shu-de-jing-xiang-lcof"
-version = "0.1.0"
-
-[[package]]
-name = "of32-cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof"
-version = "0.1.0"
 
 [[package]]
 name = "once_cell"
