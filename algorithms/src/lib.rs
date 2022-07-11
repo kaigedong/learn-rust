@@ -17,6 +17,7 @@ pub mod a144_binary_tree_preorder_traversal;
 pub mod a145_binary_tree_postorder_traversal;
 pub mod a199_binary_tree_right_side_view;
 pub mod a202_happy_number;
+pub mod a21_merge_two_sorted_lists;
 pub mod a222_count_complete_tree_nodes;
 pub mod a2236_root_equals_sum_of_children;
 pub mod a226_invert_binary_tree;
