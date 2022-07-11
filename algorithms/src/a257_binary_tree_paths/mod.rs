@@ -33,12 +33,12 @@ impl Solution {
             let right = root.right.as_deref();
 
             match (left, right) {
-                (Some(_), Some(_)) => {
+                (left @ Some(_), right @ Some(_)) => {
                     Self::binary_tree_paths_helper(left, prefix.clone(), out);
                     Self::binary_tree_paths_helper(right, prefix, out);
                 }
-                (Some(node), None) | (None, Some(node)) => {
-                    Self::binary_tree_paths_helper(Some(node), prefix, out);
+                (node @ Some(_), None) | (None, node @ Some(_)) => {
+                    Self::binary_tree_paths_helper(node, prefix, out);
                 }
                 (None, None) => {
                     out.push(prefix);
