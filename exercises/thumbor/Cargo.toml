@@ -25,7 +25,7 @@ photon-rs = "0.3.1" # 图片效果
 prost = "0.10.4" # protobuf 处理
 reqwest = "0.11.11" # HTTP client
 serde = { version = "1.0.138", features = ["derive"] } # 序列化/反序列化数据
-tokio = { version = "1.19.2", features = ["full"] } # 异步处理
+tokio = { version = "1.20.0", features = ["full"] } # 异步处理
 tower = { version = "0.4.13", features = [
   "util",
   "timeout",
