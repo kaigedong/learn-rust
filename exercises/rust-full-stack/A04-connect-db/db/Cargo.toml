@@ -9,8 +9,8 @@ actix-rt = "2.7.0"
 actix-web = "4.1.0"
 chrono = { version = "0.4.19", features = ["serde"] }
 dotenv = "0.15.0"
-openssl = { version = "0.10.40", features = ["vendored"] }
-serde = { version = "1.0.137", features = ["derive"] }
+openssl = { version = "0.10", features = ["vendored"] }
+serde = { version = "1", features = ["derive"] }
 sqlx = { version = "0.6.0", features = [
   "postgres",
   "runtime-tokio-rustls",

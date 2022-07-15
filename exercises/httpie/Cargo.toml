@@ -5,14 +5,14 @@ version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-anyhow = "1.0.58" # 错误处理
+anyhow = "1" # 错误处理
 # 命令行解析
-clap = { version = "3.2.8", features = ["derive"] }
-colored = "2.0.0" # 命令行终端色彩显示
-jsonxf = "1.1.1" # JSON pretty print 格式化
-mime = "0.3.16" # 处理mime类型
+clap = { version = "3", features = ["derive"] }
+colored = "2" # 命令行终端色彩显示
+jsonxf = "1" # JSON pretty print 格式化
+mime = "0.3" # 处理mime类型
 # HTTP 客户端
-reqwest = { version = "0.11.11", features = ["json"] }
+reqwest = { version = "0.11", features = ["json"] }
 # 异步处理库
-tokio = { version = "1.19.2", features = ["full"] }
+tokio = { version = "1", features = ["full"] }
 syntect = "5.0.0"
