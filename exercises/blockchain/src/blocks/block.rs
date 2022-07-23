@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use super::pow::ProofOfWork;
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone, Default)]
 pub struct BlockHeader {
     timestamp: i64,
     // 前一个区块的Hash值
@@ -26,7 +26,7 @@ impl BlockHeader {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone, Default)]
 pub struct Block {
     // 区块头
     header: BlockHeader,
