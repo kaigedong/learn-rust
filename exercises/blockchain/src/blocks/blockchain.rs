@@ -88,6 +88,18 @@ impl<T: Storage> Blockchain<T> {
         utxo
     }
 
+    pub fn find_transaction(&self, txid: String) -> Option<Transaction> {
+        let blocks = self.storage.get_block_iter().unwrap();
+        for block in blocks {
+            for tx in block.get_tranxs() {
+                if tx.get_id() == txid {
+                    return Some(tx);
+                }
+            }
+        }
+        None
+    }
+
     pub fn blocks_info(&self) {
         let blocks = self.storage.get_block_iter().unwrap();
         for block in blocks {

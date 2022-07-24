@@ -14,9 +14,10 @@ fn main() {
     let mut bc = Blockchain::new(storage.clone(), bobo_addr);
     let utxos = UTXOSet::new(storage);
 
-    let tx_1 = Transaction::new_utxo(bobo_addr, bob_addr, 4, &utxos);
+    let tx_1 = Transaction::new_utxo(bobo_addr, &bob_addr, 4, &utxos, &bc);
+    let tx_2 = Transaction::new_utxo(bobo_addr, &bob_addr, 2, &utxos, &bc);
 
-    let txs = vec![tx_1];
+    let txs = vec![tx_1, tx_2];
 
     bc.mine_block(&txs);
     utxos.reindex(&bc).unwrap();

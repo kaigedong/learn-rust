@@ -21,7 +21,7 @@ impl<T: Storage> UTXOSet<T> {
 
     pub fn find_spendable_outputs(
         &self,
-        from_addr: &str,
+        public_key_hash: &[u8],
         amount: i32,
     ) -> (i32, HashMap<String, Vec<usize>>) {
         let mut unspend_outputs = HashMap::new();
@@ -30,7 +30,7 @@ impl<T: Storage> UTXOSet<T> {
 
         for (txid, outs) in utxo_set.iter() {
             for (idx, out) in outs.iter().enumerate() {
-                if out.is_locked(from_addr) && accumulated < amount {
+                if out.is_locked(public_key_hash) && accumulated < amount {
                     accumulated += out.get_value();
                     unspend_outputs
                         .entry(txid.to_string())

@@ -88,7 +88,7 @@ impl Block {
         }
     }
 
-    pub fn get_tranxs(&self) -> &[Transaction] {
-        &self.tranxs
+    pub fn get_tranxs(&self) -> Vec<Transaction> {
+        self.tranxs.clone()
     }
 }
