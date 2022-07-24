@@ -1,8 +1,8 @@
 mod blocks;
 mod error;
 mod storage;
-mod utils;
 mod transactions;
+mod utils;
 
 pub use blocks::*;
 pub use storage::*;
