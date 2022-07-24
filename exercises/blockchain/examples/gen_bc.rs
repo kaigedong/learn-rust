@@ -1,14 +1,17 @@
-use blockchain::{Blockchain, SledDb};
-use std::env::current_dir;
+use blockchain::{Blockchain, SledDb, UTXOSet};
+use std::{env::current_dir, sync::Arc};
 
 fn main() {
     tracing_subscriber::fmt().init();
 
-    let path = current_dir().unwrap().join("data");
-    let mut bc = Blockchain::new(SledDb::new(path));
+    let genesis_addr = "Bobo";
 
-    bc.mine_block("Justin -> Bob 2 btc");
-    bc.mine_block("Justin -> Bruce 2 btc");
+    let path = current_dir().unwrap().join("data");
+    let storage = Arc::new(SledDb::new(path));
+
+    let bc = Blockchain::new(storage.clone(), genesis_addr);
+    let utxos = UTXOSet::new(storage);
+    utxos.reindex(&bc).unwrap();
 
     bc.blocks_info();
 }
