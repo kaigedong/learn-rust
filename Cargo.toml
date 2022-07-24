@@ -12,7 +12,7 @@ members = [
   "exercises/rust-full-stack/A03-actix-server/*",
   "exercises/rust-full-stack/A04-connect-db/*",
   "exercises/learn-axum",
-  "exercises/blockchain",
+  "exercises/blockchain/*",
   "exercises/serde-test",
   "algorithms",
 ]
