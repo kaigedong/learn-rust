@@ -6,7 +6,7 @@ use std::{
     },
 };
 
-use crate::{Block, SledDb, Storage, Transaction, Txoutput};
+use crate::{error::BlockchainError, Block, SledDb, Storage, Transaction, Txoutput};
 use tracing::info;
 
 // 将区块难度硬编码为8
@@ -19,7 +19,7 @@ pub struct Blockchain<T = SledDb> {
 }
 
 impl<T: Storage> Blockchain<T> {
-    pub fn new(storage: Arc<T>, genesis_block: &str) -> Self {
+    pub fn new(storage: Arc<T>) -> Self {
         if let Ok(Some(tip)) = storage.get_tip() {
             let height = storage.get_height().unwrap();
             Self {
@@ -28,28 +28,55 @@ impl<T: Storage> Blockchain<T> {
                 height: AtomicUsize::new(height.unwrap()),
             }
         } else {
-            let genesis_block = Block::create_genesis_block(CURR_BITS, genesis_block);
-            let hash = genesis_block.get_hash();
-            storage.update_blocks(&hash, &genesis_block, 0_usize);
-
             Self {
                 storage,
-                tip: Arc::new(RwLock::new(hash)),
+                tip: Arc::new(RwLock::new(String::new())),
                 height: AtomicUsize::new(0),
             }
         }
     }
 
+    pub fn create_genesis_block(&mut self, genesis_addr: &str) {
+        let genesis_block = Block::create_genesis_block(CURR_BITS, genesis_addr);
+        let hash = genesis_block.get_hash();
+        self.height.fetch_add(1, Ordering::Relaxed);
+        self.storage
+            .update_blocks(&hash, &genesis_block, self.height.load(Ordering::Relaxed));
+        let mut tip = self.tip.write().unwrap();
+        *tip = hash;
+    }
+
     // 挖矿
-    pub fn mine_block(&mut self, txs: &[Transaction]) {
+    pub fn mine_block(&mut self, txs: &[Transaction]) -> Block {
+        for tx in txs {
+            if !tx.verify(self) {
+                panic!("ERROR: Invalid transaction")
+            }
+        }
+
         let block = Block::new(txs, &self.tip.read().unwrap(), CURR_BITS);
         let hash = block.get_hash();
         self.height.fetch_add(1, Ordering::Relaxed);
         self.storage
             .update_blocks(&hash, &block, self.height.load(Ordering::Relaxed));
-
         let mut tip = self.tip.write().unwrap();
         *tip = hash;
+
+        block
+    }
+
+    pub fn add_block(&mut self, block: Block) -> Result<(), BlockchainError> {
+        let hash = block.get_hash();
+        if self.storage.get_block(&hash)?.is_some() {
+            info!("Block {} already exists", hash);
+        } else {
+            self.height.fetch_add(1, Ordering::Relaxed);
+            self.storage
+                .update_blocks(&hash, &block, self.height.load(Ordering::Relaxed));
+            let mut tip = self.tip.write().unwrap();
+            *tip = hash;
+        }
+        Ok(())
     }
 
     pub fn find_utxo(&self) -> HashMap<String, Vec<Txoutput>> {
@@ -105,5 +132,17 @@ impl<T: Storage> Blockchain<T> {
         for block in blocks {
             info!("{:#?}", block);
         }
+    }
+
+    pub fn get_blocks(&self) -> Vec<Block> {
+        self.storage.get_block_iter().unwrap().collect()
+    }
+
+    pub fn get_tip(&self) -> String {
+        self.tip.read().unwrap().to_string()
+    }
+
+    pub fn get_height(&self) -> usize {
+        self.height.load(Ordering::Relaxed)
     }
 }
