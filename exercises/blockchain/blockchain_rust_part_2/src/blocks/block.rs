@@ -1,13 +1,14 @@
+use crate::ProofOfWork;
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
-
-use crate::ProofOfWork;
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub struct BlockHeader {
     timestamp: i64,
     prev_hash: String,
+    // bits：计算难度，也就是区块hash值的前多少位是 0。
     bits: usize,
+    // nonce: 记录满足bits难度，重复的计算次数
     nonce: usize,
 }
 
@@ -36,6 +37,8 @@ impl Block {
             data: data.into(),
             hash: String::new(),
         };
+
+        // 找到合适的nonce值
         let pow = ProofOfWork::new(bits);
         pow.run(&mut block);
 

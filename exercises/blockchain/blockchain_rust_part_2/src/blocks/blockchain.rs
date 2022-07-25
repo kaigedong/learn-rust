@@ -1,7 +1,7 @@
+use crate::Block;
 use tracing::info;
 
-use crate::Block;
-
+// 将当前计算难度硬编码为8
 const CURR_BITS: usize = 8;
 
 pub struct Blockchain {

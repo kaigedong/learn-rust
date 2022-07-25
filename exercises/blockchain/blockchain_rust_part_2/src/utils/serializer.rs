@@ -1,8 +1,7 @@
+use crate::error::BlockchainError;
 use anyhow::Result;
 use crypto::{digest::Digest, sha3::Sha3};
 use serde::{Deserialize, Serialize};
-
-use crate::error::BlockchainError;
 
 pub fn serialize<T>(data: &T) -> Result<Vec<u8>, BlockchainError>
 where
