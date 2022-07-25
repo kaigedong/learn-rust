@@ -51,6 +51,7 @@ impl Storage for SledDb {
     }
 
     fn update_blocks(&self, key: &str, block: &Block, height: usize) {
+        // 使用事务
         let _: TransactionResult<(), ()> = self.db.transaction(|db| {
             let name = Self::get_full_key(TABLE_OF_BLOCK, key);
             db.insert(name.as_str(), serialize(block).unwrap())?;

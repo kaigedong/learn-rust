@@ -9,6 +9,7 @@ use crate::{Block, SledDb, Storage};
 
 pub const CURR_BITS: usize = 8;
 
+// 默认使用sled数据库
 pub struct Blockchain<T = SledDb> {
     storage: T,
     tip: Arc<RwLock<String>>,
@@ -17,6 +18,8 @@ pub struct Blockchain<T = SledDb> {
 
 impl<T: Storage> Blockchain<T> {
     pub fn new(storage: T) -> Self {
+        // 如果数据库中有tip值，则加载到内存。
+        // 否则创建一个创世块，并更新到数据库中。
         if let Ok(Some(tip)) = storage.get_tip() {
             let height = storage.get_height().unwrap();
             Self {
