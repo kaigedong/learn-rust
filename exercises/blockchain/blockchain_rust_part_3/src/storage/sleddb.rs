@@ -52,6 +52,8 @@ impl Storage for SledDb {
 
     fn update_blocks(&self, key: &str, block: &Block, height: usize) {
         // 使用事务
+        // 数据库事务( transaction)是访问并可能操作各种数据项的一个数据库操作序列，
+        // 这些操作要么全部执行，要么全部不执行，是一个不可分割的工作单位。
         let _: TransactionResult<(), ()> = self.db.transaction(|db| {
             let name = Self::get_full_key(TABLE_OF_BLOCK, key);
             db.insert(name.as_str(), serialize(block).unwrap())?;

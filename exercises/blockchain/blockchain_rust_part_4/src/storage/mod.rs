@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use crate::{error::BlockchainError, Block, Txoutput};
+use std::collections::HashMap;
 
 mod sleddb;
 
@@ -18,8 +17,13 @@ pub trait Storage: Send + Sync + 'static {
     fn update_blocks(&self, key: &str, block: &Block, height: usize);
     fn get_block_iter(&self) -> Result<Box<dyn Iterator<Item = Block>>, BlockchainError>;
 
+    // 增加UTXO相关操作
+
+    // 获取utxo集合
     fn get_utxo_set(&self) -> HashMap<String, Vec<Txoutput>>;
+    // 向数据库中写入utxo集合
     fn write_utxo(&self, txid: &str, outs: Vec<Txoutput>) -> Result<(), BlockchainError>;
+    // 清除utxo集合
     fn clear_utxo_set(&self);
 }
 

@@ -1,11 +1,10 @@
-use sled::{transaction::TransactionResult, Db, IVec};
-use std::{collections::HashMap, path::Path};
-
 use crate::{
     error::BlockchainError,
     utils::{deserialize, serialize},
     Block, Storage, StorageIterator, Txoutput, HEIGHT, TABLE_OF_BLOCK, TIP_KEY, UTXO_SET,
 };
+use sled::{transaction::TransactionResult, Db, IVec};
+use std::{collections::HashMap, path::Path};
 
 pub struct SledDb {
     db: Db,

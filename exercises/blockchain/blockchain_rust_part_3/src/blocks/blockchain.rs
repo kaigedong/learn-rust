@@ -12,6 +12,7 @@ pub const CURR_BITS: usize = 8;
 // 默认使用sled数据库
 pub struct Blockchain<T = SledDb> {
     storage: T,
+    // 最后加入块的Hash值
     tip: Arc<RwLock<String>>,
     height: AtomicUsize,
 }

@@ -1,16 +1,16 @@
-use std::{collections::HashMap, sync::Arc};
-
 use crate::{error::BlockchainError, Blockchain, Storage};
+use std::{collections::HashMap, sync::Arc};
 
 pub struct UTXOSet<T> {
     storage: Arc<T>,
 }
 
+// UTXO 集，也就是未花费交易输出的集合，用它来计算余额和验证新的交易，存储在数据库中。
 impl<T: Storage> UTXOSet<T> {
     pub fn new(storage: Arc<T>) -> Self {
         Self { storage }
     }
-
+    // 当产生新的区块时，重建UTXO集合索引
     pub fn reindex(&self, bc: &Blockchain) -> Result<(), BlockchainError> {
         self.storage.clear_utxo_set();
         let map = bc.find_utxo();
@@ -19,7 +19,7 @@ impl<T: Storage> UTXOSet<T> {
         }
         Ok(())
     }
-
+    // 找到交易发起方可花费的交易输出
     pub fn find_spendable_outputs(
         &self,
         from_addr: &str,

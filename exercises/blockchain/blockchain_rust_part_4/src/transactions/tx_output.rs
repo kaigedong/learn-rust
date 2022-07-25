@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
 
+// 交易输出
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct Txoutput {
+    // 交易值
     value: i32,
+    // 交易接收方，下一部分实现钱包功能时，替换为交易接收方的公钥hash。
     to_addr: String,
 }
 

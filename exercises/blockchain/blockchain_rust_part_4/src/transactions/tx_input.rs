@@ -1,9 +1,13 @@
 use serde::{Deserialize, Serialize};
 
+// 交易输入
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct Txinput {
+    // 前一笔交易的ID
     txid: String,
+    // 前一笔交易输出的序号
     vout: usize,
+    // 交易的发起方，下一部分实现钱包功能时，替换为交易发起方的公钥
     from_addr: String,
 }
 

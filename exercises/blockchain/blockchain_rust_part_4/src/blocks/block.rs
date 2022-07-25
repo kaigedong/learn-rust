@@ -10,6 +10,7 @@ use crate::{
 pub struct BlockHeader {
     timestamp: i64,
     prev_hash: String,
+    // 交易集合的hash值，可以优化为Merkle树。
     txs_hash: String,
     bits: usize,
     nonce: usize,
