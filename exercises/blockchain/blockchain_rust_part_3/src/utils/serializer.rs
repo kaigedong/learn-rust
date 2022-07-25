@@ -11,7 +11,6 @@ where
     Ok(bincode::serialize(data)?)
 }
 
-#[allow(dead_code)]
 pub fn deserialize<'a, T>(data: &'a [u8]) -> Result<T, BlockchainError>
 where
     T: Deserialize<'a> + ?Sized,

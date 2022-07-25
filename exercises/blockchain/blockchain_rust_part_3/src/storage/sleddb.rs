@@ -1,12 +1,12 @@
-use sled::{transaction::TransactionResult, Db, IVec};
-use std::path::Path;
-
 use crate::{
     error::BlockchainError,
     utils::{deserialize, serialize},
     Block, Storage, StorageIterator, HEIGHT, TABLE_OF_BLOCK, TIP_KEY,
 };
+use sled::{transaction::TransactionResult, Db, IVec};
+use std::path::Path;
 
+// 使用KV数据库sled
 pub struct SledDb {
     db: Db,
 }
@@ -18,6 +18,7 @@ impl SledDb {
         }
     }
 
+    // blocks:{hash}类型的key
     fn get_full_key(table: &str, key: &str) -> String {
         format!("{}:{}", table, key)
     }
@@ -25,10 +26,13 @@ impl SledDb {
 
 impl Storage for SledDb {
     fn get_tip(&self) -> Result<Option<String>, BlockchainError> {
+        // map: Option<T>-> Option<U>
+        // 将 Option<IVec> -> Option<Result<..>>
         let result = self
             .db
             .get(TIP_KEY)?
             .map(|v| deserialize::<String>(&v.to_vec()));
+        // map_or: 如果是some, 则根据后面的闭包处理并返回，否则返回默认值
         result.map_or(Ok(None), |v| v.map(Some))
     }
 
