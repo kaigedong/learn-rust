@@ -2777,6 +2777,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "libp2p-learn"
+version = "0.1.0"
+dependencies = [
+ "libp2p",
+ "tokio",
+]
+
+[[package]]
 name = "libp2p-mdns"
 version = "0.38.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
