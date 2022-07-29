@@ -1,0 +1,36 @@
+// 定义proto文件的版本
+syntax = "proto3";
+// 允许使用来自其他proto文件的定义。例如，由于GetTodos函数没有请求参数，所以导入empty.proto
+import "google/protobuf/empty.proto";
+
+package todo;
+
+// message: 将message看作定义请求和响应的接口。分配给字段的数字表示字段编号.
+// 字段号是Protobuf的重要组成部分。他们用于标识二进制编码数据中的字段，意味着它们不能在
+// service的不同版本之间进行更改
+message TodoItem {
+  string name = 1;
+  string description = 2;
+  int32 priority = 3;
+  bool completed = 4;
+}
+
+message GetTodosResponse { repeated TodoItem todos = 1; }
+
+message CreateTodoRequest {
+  string name = 1;
+  string description = 2;
+  int32 priority = 3;
+}
+
+message CreateTodoResponse {
+  TodoItem todo = 1;
+  bool status = 2;
+}
+
+// service:
+// 可以将其视为一个接口，在service中定义了函数，它们需要什么参数以及它们返回什么值
+service Todo {
+  rpc GetTodos(google.protobuf.Empty) returns (GetTodosResponse);
+  rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse);
+}
