@@ -21,4 +21,4 @@ tonic = "0.7"
 
 [build-dependencies]
 # 编译proto文件成Rust代码
-tonic-build = "0.7"
+tonic-build = "0.8"
