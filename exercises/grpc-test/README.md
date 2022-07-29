@@ -9,3 +9,9 @@ gRPC 是一个现代的开源的高性能远程过程调用(RPC)框架，可以�
 Protocol Buffers 是谷歌定制的用于语言无关、平台无关、可扩展的，序列化结构性数据的一种协议。
 
 在 gRPC 中，传输的(序列化的)数据是二进制的。这意味着它比 JSON 或 XML 更快，因为它占用更少的空间，而更少的空间带来更小的带宽。
+
+### 注：
+
+在本例子中，没有直接将 proto 文件编译成文件。在编译过程中，该文件可以在 `target/debug/build/grpc-test-xxx/out` 中查看到。
+
+也有将 protobuf 编译成 rs 的方法。 可以看 `exercises/thumbor/build.rs`
