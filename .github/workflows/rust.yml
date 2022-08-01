@@ -1,8 +1,8 @@
 # From: https://github.com/EFanZh/LeetCode/blob/master/.github/workflows/rust.yml
+# 一个 Workflow 中的每个 Job 都是单独的机器在跑
 name: Rust
 on: push
 jobs:
-  # 一个 Workflow 中的每个 Job 都是单独的机器在跑
   rustfmt:
     runs-on: ${{ matrix.os }}
     steps:
