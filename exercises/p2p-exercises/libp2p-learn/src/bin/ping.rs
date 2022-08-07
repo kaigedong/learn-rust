@@ -1,4 +1,3 @@
-use std::error::Error;
 use libp2p::{
     futures::StreamExt,
     identity,
@@ -6,6 +5,7 @@ use libp2p::{
     swarm::SwarmEvent,
     Multiaddr, PeerId, Swarm,
 };
+use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {

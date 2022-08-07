@@ -4,7 +4,10 @@ use todo::{
     // 由于Proto中定义了Todo service, 将会自动编译成todo::todo_server下的
     // Todo Trait 和 TodoServer struct
     todo_server::{Todo, TodoServer},
-    CreateTodoRequest, CreateTodoResponse, GetTodosResponse, TodoItem,
+    CreateTodoRequest,
+    CreateTodoResponse,
+    GetTodosResponse,
+    TodoItem,
 };
 use tonic::transport::Server;
 
