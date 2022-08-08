@@ -24,16 +24,9 @@
           "type_info": "Timestamp"
         }
       ],
-      "nullable": [
-        false,
-        false,
-        false,
-        true
-      ],
+      "nullable": [false, false, false, true],
       "parameters": {
-        "Left": [
-          "Int4"
-        ]
+        "Left": ["Int4"]
       }
     },
     "query": "select id, teacher_id, name, time from course where id = $1"

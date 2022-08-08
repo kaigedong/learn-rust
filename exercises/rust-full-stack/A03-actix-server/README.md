@@ -90,6 +90,6 @@ cargo sqlx prepare -- --bin actix-teacher-service
 
 ## 最后一步：部署
 
-(cargo build 不能对wasm进行构建)
+(cargo build 不能对 wasm 进行构建)
 
 wasm-pack build --release

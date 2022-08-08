@@ -113,16 +113,9 @@
           "type_info": "Varchar"
         }
       ],
-      "nullable": [
-        false,
-        true,
-        true,
-        true
-      ],
+      "nullable": [false, true, true, true],
       "parameters": {
-        "Left": [
-          "Int4"
-        ]
+        "Left": ["Int4"]
       }
     },
     "query": "SELECT id, name, picture_url, profile FROM teacher where id = $1"
@@ -151,12 +144,7 @@
           "type_info": "Varchar"
         }
       ],
-      "nullable": [
-        false,
-        true,
-        true,
-        true
-      ],
+      "nullable": [false, true, true, true],
       "parameters": {
         "Left": []
       }
@@ -236,9 +224,7 @@
         true
       ],
       "parameters": {
-        "Left": [
-          "Int4"
-        ]
+        "Left": ["Int4"]
       }
     },
     "query": "SELECT * FROM course WHERE teacher_id = $1"
@@ -248,10 +234,7 @@
       "columns": [],
       "nullable": [],
       "parameters": {
-        "Left": [
-          "Int4",
-          "Int4"
-        ]
+        "Left": ["Int4", "Int4"]
       }
     },
     "query": "DELETE FROM course where teacher_id = $1 and id = $2"
@@ -368,16 +351,9 @@
           "type_info": "Varchar"
         }
       ],
-      "nullable": [
-        false,
-        true,
-        true,
-        true
-      ],
+      "nullable": [false, true, true, true],
       "parameters": {
-        "Left": [
-          "Int4"
-        ]
+        "Left": ["Int4"]
       }
     },
     "query": "SELECT id, name, picture_url, profile FROM teacher where id=$1"
@@ -455,10 +431,7 @@
         true
       ],
       "parameters": {
-        "Left": [
-          "Int4",
-          "Int4"
-        ]
+        "Left": ["Int4", "Int4"]
       }
     },
     "query": "SELECT * FROM course where teacher_id = $1 and id = $2"
@@ -536,10 +509,7 @@
         true
       ],
       "parameters": {
-        "Left": [
-          "Int4",
-          "Int4"
-        ]
+        "Left": ["Int4", "Int4"]
       }
     },
     "query": "SELECT * FROM course\n        WHERE teacher_id = $1 and id = $2"
@@ -568,19 +538,9 @@
           "type_info": "Varchar"
         }
       ],
-      "nullable": [
-        false,
-        true,
-        true,
-        true
-      ],
+      "nullable": [false, true, true, true],
       "parameters": {
-        "Left": [
-          "Varchar",
-          "Varchar",
-          "Varchar",
-          "Int4"
-        ]
+        "Left": ["Varchar", "Varchar", "Varchar", "Int4"]
       }
     },
     "query": "UPDATE teacher SET name=$1, picture_url=$2, profile=$3 WHERE id=$4\n        RETURNING id, name, picture_url, profile"
@@ -609,18 +569,9 @@
           "type_info": "Varchar"
         }
       ],
-      "nullable": [
-        false,
-        true,
-        true,
-        true
-      ],
+      "nullable": [false, true, true, true],
       "parameters": {
-        "Left": [
-          "Varchar",
-          "Varchar",
-          "Varchar"
-        ]
+        "Left": ["Varchar", "Varchar", "Varchar"]
       }
     },
     "query": "INSERT INTO teacher (name, picture_url, profile) VALUES ($1,$2,$3)\n        RETURNING id, name, picture_url, profile"

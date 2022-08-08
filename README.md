@@ -8,7 +8,7 @@
 
 - [ ] 代码行数自动统计(tokei)
 
-- [x] 合并rust-full-stack
+- [x] 合并 rust-full-stack
 
 - [ ] Too many links
 
