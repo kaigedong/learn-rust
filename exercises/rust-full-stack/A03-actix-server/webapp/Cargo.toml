@@ -5,10 +5,10 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-actix-files = "0.6.1"
-actix-web = "4.1.0"
-awc = "3.0.0" # http客户端
-dotenv = "0.15.0"
+actix-files = "0.6"
+actix-web = "4"
+awc = "3" # http客户端
+dotenv = "0.15"
 serde = { version = "1", features = ["derive"] }
-serde_json = "1.0.82"
-tera = "1.16.0" # 模板引擎
+serde_json = "1"
+tera = "1" # 模板引擎

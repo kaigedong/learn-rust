@@ -7,14 +7,14 @@ default-run = "actix-teacher-service"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-actix-cors = "0.6.1" # 跨域
-actix-rt = "2.7.0"
-actix-web = "4.1.0"
-chrono = { version = "0.4.19", features = ["serde"] }
-dotenv = "0.15.0"
+actix-cors = "0.6" # 跨域
+actix-rt = "2"
+actix-web = "4"
+chrono = { version = "0.4", features = ["serde"] }
+dotenv = "0.15"
 openssl = { version = "0.10", features = ["vendored"] }
 serde = { version = "1", features = ["derive"] }
-sqlx = { version = "0.6.0", default_features = false, features = [
+sqlx = { version = "0.6", default_features = false, features = [
   "postgres",
   "runtime-tokio-rustls",
   "macros",
