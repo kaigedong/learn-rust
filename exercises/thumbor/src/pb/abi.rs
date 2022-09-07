@@ -48,19 +48,19 @@ pub struct Crop {
     pub y2: u32,
 }
 /// 处理水平翻转
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Fliph {}
 /// 处理垂直翻转
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Flipv {}
 /// 处理对比度
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Contrast {
     #[prost(float, tag = "1")]
     pub contrast: f32,
 }
 /// 处理滤镜
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Filter {
     #[prost(enumeration = "filter::Filter", tag = "1")]
     pub filter: i32,
@@ -78,7 +78,7 @@ pub mod filter {
     }
 }
 /// 处理水印
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Watermark {
     #[prost(uint32, tag = "1")]
     pub x: u32,

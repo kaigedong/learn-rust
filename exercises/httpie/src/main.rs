@@ -57,7 +57,7 @@ struct Post {
 }
 
 /// 命令行中的key=value可以通过parse_kv_pair解析成KvPair结构
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 struct KvPair {
     k: String,
     v: String,

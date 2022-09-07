@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Method {
     Get,
     Post,
@@ -17,7 +17,7 @@ impl From<&str> for Method {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Version {
     V1_1,
     V2_0,
@@ -33,7 +33,7 @@ impl From<&str> for Version {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Resource {
     Path(String),
 }

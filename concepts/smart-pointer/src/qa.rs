@@ -28,7 +28,7 @@ pub fn qa_deref_move2() {
     let a = &"junmajinlong.com".to_string();
     // let b = *a;         // (1).取消注释将报错
     let _c = (*a).clone(); // (2).正确
-    let _d = &*a; // (3).正确
+                           // let _d = &*a; // (3).正确; clippy会警告
 
     let x = &3;
     let _y = *x; // (4).正确

@@ -28,10 +28,7 @@ impl Storage for SledDb {
     fn get_tip(&self) -> Result<Option<String>, BlockchainError> {
         // map: Option<T>-> Option<U>
         // 将 Option<IVec> -> Option<Result<..>>
-        let result = self
-            .db
-            .get(TIP_KEY)?
-            .map(|v| deserialize::<String>(&v.to_vec()));
+        let result = self.db.get(TIP_KEY)?.map(|v| deserialize::<String>(&v));
         // map_or: 如果是some, 则根据后面的闭包处理并返回，否则返回默认值
         result.map_or(Ok(None), |v| v.map(Some))
     }
@@ -43,10 +40,7 @@ impl Storage for SledDb {
     }
 
     fn get_height(&self) -> Result<Option<usize>, BlockchainError> {
-        let result = self
-            .db
-            .get(HEIGHT)?
-            .map(|v| deserialize::<usize>(&v.to_vec()));
+        let result = self.db.get(HEIGHT)?.map(|v| deserialize::<usize>(&v));
         result.map_or(Ok(None), |v| v.map(Some))
     }
 
@@ -73,7 +67,7 @@ impl Storage for SledDb {
 
 impl From<IVec> for Block {
     fn from(v: IVec) -> Self {
-        let result = deserialize::<Block>(&v.to_vec());
+        let result = deserialize::<Block>(&v);
         match result {
             Ok(block) => block,
             Err(_) => Block::default(),
@@ -84,7 +78,7 @@ impl From<IVec> for Block {
 impl From<Result<(IVec, IVec), sled::Error>> for Block {
     fn from(result: Result<(IVec, IVec), sled::Error>) -> Self {
         match result {
-            Ok((_, v)) => match deserialize::<Block>(&v.to_vec()) {
+            Ok((_, v)) => match deserialize::<Block>(&v) {
                 Ok(block) => block,
                 Err(_) => Block::default(),
             },
