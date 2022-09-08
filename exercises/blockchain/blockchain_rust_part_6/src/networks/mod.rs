@@ -16,7 +16,7 @@ use libp2p::{
     noise,
     swarm::SwarmBuilder,
     tcp::{GenTcpConfig, TokioTcpTransport},
-    yamux, PeerId, Swarm, Transport,
+    yamux, PeerId, Transport,
 };
 use once_cell::sync::Lazy;
 use std::{
@@ -38,7 +38,7 @@ static WALLET_MAP: Lazy<Arc<Mutex<HashMap<String, String>>>> =
 async fn create_swarm(
     topics: Vec<Topic>,
     msg_sender: mpsc::UnboundedSender<Messages>,
-) -> Result<Swarm<BlockchainBehaviour>> {
+) -> Result<behaviour::CustomSwarm<BlockchainBehaviour>> {
     println!("Local peer id: {:?}", *PEER_ID);
 
     let noise_keys = noise::Keypair::<noise::X25519Spec>::new().into_authentic(&ID_KEYS)?;
@@ -62,8 +62,8 @@ async fn create_swarm(
         .build()
         .expect("Valid config");
 
-    let mut behaviour =
-        BlockchainBehaviour::new(ID_KEYS.clone(), gossipsub_config, msg_sender).await?;
+    let mut behaviour = BlockchainBehaviour::new(ID_KEYS.clone(), gossipsub_config).await?;
+
     for topic in topics.iter() {
         behaviour.gossipsub.subscribe(topic).unwrap();
     }
@@ -74,5 +74,5 @@ async fn create_swarm(
         }))
         .build();
 
-    Ok(swarm)
+    Ok(CustomSwarm { swarm, msg_sender })
 }

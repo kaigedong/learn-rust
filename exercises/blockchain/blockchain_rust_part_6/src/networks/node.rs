@@ -1,10 +1,10 @@
 use crate::{
-    Block, Blockchain, BlockchainBehaviour, Commands, Messages, SledDb, Storage, Transaction,
-    UTXOSet, Wallets,
+    Block, Blockchain, BlockchainBehaviour, Commands, CustomSwarm, Messages, SledDb, Storage,
+    Transaction, UTXOSet, Wallets,
 };
 use anyhow::Result;
 use futures::StreamExt;
-use libp2p::{swarm::SwarmEvent, PeerId, Swarm};
+use libp2p::{swarm::SwarmEvent, PeerId};
 use std::sync::Arc;
 use tokio::{
     io::{stdin, AsyncBufReadExt, BufReader},
@@ -18,7 +18,7 @@ pub struct Node<T = SledDb> {
     bc: Blockchain<T>,
     utxos: UTXOSet<T>,
     msg_receiver: mpsc::UnboundedReceiver<Messages>,
-    swarm: Swarm<BlockchainBehaviour>,
+    swarm: CustomSwarm<BlockchainBehaviour>,
 }
 
 impl<T: Storage> Node<T> {
@@ -34,7 +34,7 @@ impl<T: Storage> Node<T> {
     }
 
     pub async fn list_peers(&mut self) -> Result<Vec<&PeerId>> {
-        let nodes = self.swarm.behaviour().mdns.discovered_nodes();
+        let nodes = self.swarm.swarm.behaviour().mdns.discovered_nodes();
         let peers = nodes.collect::<Vec<_>>();
         Ok(peers)
     }
@@ -47,6 +47,7 @@ impl<T: Storage> Node<T> {
 
         let line = serde_json::to_vec(&version)?;
         self.swarm
+            .swarm
             .behaviour_mut()
             .gossipsub
             .publish(BLOCK_TOPIC.clone(), line)
@@ -64,6 +65,7 @@ impl<T: Storage> Node<T> {
         let b = Messages::Block { block };
         let line = serde_json::to_vec(&b)?;
         self.swarm
+            .swarm
             .behaviour_mut()
             .gossipsub
             .publish(BLOCK_TOPIC.clone(), line)
@@ -80,6 +82,7 @@ impl<T: Storage> Node<T> {
             };
             let msg = serde_json::to_vec(&blocks)?;
             self.swarm
+                .swarm
                 .behaviour_mut()
                 .gossipsub
                 .publish(BLOCK_TOPIC.clone(), msg)
@@ -111,7 +114,9 @@ impl<T: Storage> Node<T> {
     }
 
     pub async fn start(&mut self) -> Result<()> {
-        self.swarm.listen_on("/ip4/127.0.0.1/tcp/0".parse()?)?;
+        self.swarm
+            .swarm
+            .listen_on("/ip4/127.0.0.1/tcp/0".parse()?)?;
 
         let mut stdin = BufReader::new(stdin()).lines();
 
@@ -176,9 +181,17 @@ impl<T: Storage> Node<T> {
                         }
                     }
                 },
-                event = self.swarm.select_next_some() => {
-                    if let SwarmEvent::NewListenAddr { address, .. } = event {
-                        println!("Listening on {:?}", address);
+                event = self.swarm.swarm.select_next_some() => {
+                    match event {
+                        SwarmEvent::NewListenAddr { address, .. } => {
+                            println!("Listening on {:?}", address);
+                        },
+
+                        SwarmEvent::Behaviour(event) => {
+                            // self.swarm.swarm.behaviour_mut().handle_event(event);
+                            self.swarm.handle_event(event);
+                        },
+                        _ => {}
                     }
                 }
             }
