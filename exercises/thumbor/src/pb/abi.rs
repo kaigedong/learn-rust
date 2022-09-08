@@ -5,7 +5,7 @@ pub struct ImageSpec {
     pub specs: ::prost::alloc::vec::Vec<Spec>,
 }
 /// 处理图片改变大小
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Resize {
     #[prost(uint32, tag = "1")]
     pub width: u32,
@@ -36,7 +36,7 @@ pub mod resize {
     }
 }
 /// 处理图片截取
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Crop {
     #[prost(uint32, tag = "1")]
     pub x1: u32,
