@@ -54,7 +54,7 @@ pub struct Fliph {}
 #[derive(Clone, PartialEq, Eq, ::prost::Message)]
 pub struct Flipv {}
 /// 处理对比度
-#[derive(Clone, PartialEq, Eq, ::prost::Message)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Contrast {
     #[prost(float, tag = "1")]
     pub contrast: f32,
