@@ -42,7 +42,7 @@ pub async fn get_courses_by_teacher(teacher_id: i32) -> Result<Vec<Course>, MyEr
     let resp: Response = resp_value.dyn_into().unwrap();
     let json = JsFuture::from(resp.json()?).await?;
 
-    let courses: Vec<Course> = json.into_serde().unwrap();
+    let courses: Vec<Course> = serde_wasm_bindgen::from_value(json).unwrap();
     Ok(courses)
 }
 
@@ -66,7 +66,7 @@ pub async fn delete_course(teacher_id: i32, course_id: i32) {
     let resp: Response = resp_value.dyn_into().unwrap();
     let json = JsFuture::from(resp.json().unwrap()).await.unwrap();
 
-    let _course: Course = json.into_serde().unwrap();
+    let _course: Course = serde_wasm_bindgen::from_value(json).unwrap();
 }
 
 #[wasm_bindgen]
