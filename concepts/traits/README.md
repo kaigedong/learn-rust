@@ -723,8 +723,6 @@ fn test_is_even() {
 }
 ```
 
-> Obviously, this is very verbose. Also, all of our impls are almost identical. Furthermore, in the unlikely but still possible event that Rust decides to add more number types in the future we have to remember to come back to this code and update it with the new number types. We can solve all these problems using a generic blanket impl:
-
 显而易见地，我们重复实现了近乎相同的逻辑，这非常的繁琐。进一步来讲，如果 Rust 在将来决定增加更多的数字类型（小概率事件并非绝不可能），那么我们将不得不重新回到这里对新增的数字类型编写代码。一揽子泛型实现恰可以解决这些问题：
 
 ```rust
@@ -745,7 +743,6 @@ where
     <u8 as TryInto<T>>::Error: Debug,
 {
     fn is_even(self) -> bool {
-        // these unwraps will never panic
         // 以下 unwrap 永远不会 panic
         self % 2.try_into().unwrap() == 0.try_into().unwrap()
     }
@@ -759,8 +756,6 @@ fn test_is_even() {
     // etc
 }
 ```
-
-> Unlike default impls, which provide _an_ impl, generic blanket impls provide _the_ impl, so they are not overridable.
 
 默认实现可以重写，而一揽子泛型实现不可重写。
 
@@ -791,8 +786,6 @@ impl Even for u8 { // ❌
 }
 ```
 
-> Throws:
-
 编译出错：
 
 ```none
@@ -812,13 +805,9 @@ error[E0119]: conflicting implementations of trait `Even` for type `u8`:
    |   ^^^^^^^^^^^^^^^^ conflicting implementation for `u8`
 ```
 
-> These impls overlap, hence they conflict, hence Rust rejects the code to ensure trait coherence. Trait coherence is the property that there exists at most one impl of a trait for any given type. The rules Rust uses to enforce trait coherence, the implications of those rules, and workarounds for the implications are outside the scope of this article.
-
 重叠的实现产生了冲突，于是 Rust 拒绝了该代码以确保特性一致性。特性一致性指的是，对任意给定类型，仅能对某一特性具有单一实现。Rust 强制实现特性一致性，而这一规则的潜在影响与变通方法超出了本文的讨论范围。
 
 ### 子特性与超特性 Subtraits & Supertraits
-
-> The "sub" in "subtrait" refers to subset and the "super" in "supertrait" refers to superset. If we have this trait declaration:
 
 子特性的“子”即为子集，超特性的“超”即为超集。若有下列特性声明：
 
@@ -826,19 +815,13 @@ error[E0119]: conflicting implementations of trait `Even` for type `u8`:
 trait Subtrait: Supertrait {}
 ```
 
-> All of the types which impl `Subtrait` are a subset of all the types which impl `Supertrait`, or to put it in opposite but equivalent terms: all the types which impl `Supertrait` are a superset of all the types which impl `Subtrait`.
-
 所有实现了子特性的类型都是实现了超特性的类型的子集，也可以说，所有实现了超特性的类型都是实现了子特性的类型的超集。
-
-> Also, the above is just syntax sugar for:
 
 以上代码等价于：
 
 ```rust
 trait Subtrait where Self: Supertrait {}
 ```
-
-> It's a subtle yet important distinction to understand that the bound is on `Self`, i.e. the type impling `Subtrait`, and not on `Subtrait` itself. The latter would not make any sense, since trait bounds can only be applied to concrete types which can impl traits. Traits cannot impl other traits:
 
 这是一种易于忽略但又至关重要的区别 —— 约束是 `Self` 的约束，而不是 `Subtrait` 的约束。后者没有任何意义，因为特性约束只能应用于具体类型。不能用一种特性去实现其它特性：
 
@@ -850,15 +833,11 @@ trait Supertrait {
 }
 
 trait Subtrait: Supertrait {
-    // this looks like it might impl or
-    // override Supertrait::method but it
-    // does not
     // 这可能会令你产生超特性的方法被覆盖的错觉（实际不会）
     fn method(&self) {
         println!("in subtrait")
     }
 }
-
 
 struct SomeType;
 
@@ -868,21 +847,15 @@ impl Supertrait for SomeType {}
 // adds Subtrait::method to SomeType
 impl Subtrait for SomeType {}
 
-// both methods exist on SomeType simultaneously
-// neither overriding or shadowing the other
-// 两个同名方法同时存在于同一类型时，既不重写也不影射
+// 两个同名方法同时存在于同一类型时，既不重写(overriding)也不影射(shadowing the other)
 
 fn main() {
-    SomeType.method(); // ❌ ambiguous method call
-                       // ❌ 不允许语义模糊的函数调用
-    // must disambiguate using fully-qualified syntax
+    SomeType.method(); // ❌ 不允许语义模糊的函数调用
     // 必须使用完全限定的记号来明确你要使用的函数
     <SomeType as Supertrait>::method(&st); // ✅ prints "in supertrait"
     <SomeType as Subtrait>::method(&st); // ✅ prints "in subtrait"
 }
 ```
-
-> Furthermore, there are no rules for how a type must impl both a subtrait and a supertrait. It can use the methods from either in the impl of the other.
 
 此外，对于特定类型如何同时实现子特性与超特性并没有规定。子、超特性之间的方法也可以相互调用。
 
@@ -906,6 +879,7 @@ impl Supertrait for CallSuperFromSub {
 impl Subtrait for CallSuperFromSub {
     fn sub_method(&mut self) {
         println!("in sub");
+        // 在sub_trait中调用了super_trait的方法
         self.super_method();
     }
 }
@@ -915,6 +889,7 @@ struct CallSubFromSuper;
 impl Supertrait for CallSubFromSuper {
     fn super_method(&mut self) {
         println!("in super");
+        // 在super_trait调用了sub_trait的方法
         self.sub_method();
     }
 }
@@ -932,6 +907,7 @@ impl Supertrait for CallEachOther {
         println!("in super");
         if self.0 {
             self.0 = false;
+            // 在super_trait中调用了sub_trait中的方法
             self.sub_method();
         }
     }
@@ -941,7 +917,9 @@ impl Subtrait for CallEachOther {
     fn sub_method(&mut self) {
         println!("in sub");
         if self.0 {
+            // 避免循环调用
             self.0 = false;
+            // 在sub_trait中调用了super_trait的方法
             self.super_method();
         }
     }
@@ -959,9 +937,7 @@ fn main() {
 }
 ```
 
-> Hopefully the examples above show that the relationship between subtraits and supertraits can be complex. Before introducing a mental model that neatly encapsulates all of that complexity let's quickly review and establish the mental model we use for understanding trait bounds on generic types:
-
-通过以上示例，希望读者能够领会到，子特性与超特性之间的关系并未被一刀切的限制住。接下来我们将学习一种将所有这些复杂性巧妙地封装在一起的心智模型，在这之前我们先来回顾一下我们用来理解泛型类型与特性约束的关系的心智模型。
+通过以上示例，希望读者能够领会到，子特性与超特性之间的关系并未被一刀切的限制住。接下来我们将学习一种将所有这些复杂性巧妙地封装在一起的心智模型，在这之前我们先来回顾一下我们用来理解**泛型类型与特性约束**的关系的心智模型。
 
 ```rust
 fn function<T: Clone>(t: T) {
@@ -969,11 +945,7 @@ fn function<T: Clone>(t: T) {
 }
 ```
 
-> Without knowing anything about the impl of this function we could reasonably guess that `t.clone()` gets called at some point because when a generic type is bounded by a trait that strongly implies it has a dependency on the trait. The mental model for understanding the relationship between generic types and their trait bounds is a simple and intuitive one: generic types _depend on_ their trait bounds.
-
 即便我们不知道这个函数的具体实现，我们仍旧可以有理有据地猜测 `t.clone()` 将在函数的某处被调用，因为当泛型类型被特性所约束的时候，会给人一种它依赖于该特性的强烈暗示。这就是一种理解泛型类型与特性约束的关系的心智模型，它简单且可凭直觉 —— 泛型类型依赖于它们的特性约束。
-
-> Now let's look the trait declaration for `Copy`:
 
 现在，让我们看看 `Copy` 特性的声明：
 
@@ -981,16 +953,7 @@ fn function<T: Clone>(t: T) {
 trait Copy: Clone {}
 ```
 
-> The syntax above looks very similar to the syntax for applying a trait bound on a generic type and yet `Copy` doesn't depend on `Clone` at all. The mental model we developed earlier doesn't help us here. In my opinion, the most simple and elegant mental model for understanding the relationship between subtraits and supertraits is: subtraits _refine_ their supertraits.
-
 以上的记号和之前我们为泛型添加特性约束的记号非常相似，但是 `Copy` 却完全不依赖 `Clone` 。早前建立的心智模型现在不适用了。在我看来，理解子特性与超特性的关系的最简单和最优雅的心智模型莫过于 —— 子特性 _改良_ 了超特性。
-
-> "Refinement" is intentionally kept somewhat vague because it can mean different things in different contexts:
->
-> - a subtrait might make its supertrait's methods' impls more specialized, faster, use less memory, e.g. `Copy: Clone`
-> - a subtrait might make additional guarantees about the supertrait's methods' impls, e.g. `Eq: PartialEq`, `Ord: PartialOrd`, `ExactSizeIterator: Iterator`
-> - a subtrait might make the supertrait's methods more flexible or easier to call, e.g. `FnMut: FnOnce`, `Fn: FnMut`
-> - a subtrait might extend a supertrait and add new methods, e.g. `DoubleEndedIterator: Iterator`, `ExactSizeIterator: Iterator`
 
 “改良”一词故意地预留了一些模糊的空间，它的具体含义在不同的上下文中有所不同：
 
@@ -1001,9 +964,7 @@ trait Copy: Clone {}
 
 ### 特性对象 Trait Objects
 
-> Generics give us compile-time polymorphism where trait objects give us run-time polymorphism. We can use trait objects to allow functions to dynamically return different types at run-time:
-
-如果说泛型给了我们编译时的多态性，那么特性对象就给了我们运行时的多态性。通过特性对象，我们可以允许函数在运行时动态地返回不同的类型。
+如果说泛型给了我们编译时的多态性，那么特性对象就给了我们运行时的多态性。通过特性对象，我们可以允许函数在运行时**动态地返回不同的类型**。
 
 ```rust
 fn example(condition: bool, vec: Vec<i32>) -> Box<dyn Iterator<Item = i32>> {
@@ -1022,12 +983,10 @@ fn example(condition: bool, vec: Vec<i32>) -> Box<dyn Iterator<Item = i32>> {
         Box::new(iter.filter(|&n| n >= 2))
     }
 }
-        // 以上代码中，两种不同的指针类型转换成相同的指针类型
+// 以上代码中，两种不同的指针类型转换成相同的指针类型
 ```
 
-> Trait objects also allow us to store heterogeneous types in collections:
-
-特性对象也允许我们在集合中存储不同类型的值：
+特性对象也允许我们在**集合中存储不同类型的值**：
 
 ```rust
 use std::f64::consts::PI;
@@ -1069,22 +1028,18 @@ fn example() {
 }
 ```
 
-> Trait objects are unsized so they must always be behind a pointer. We can tell the difference between a concrete type and a trait object at the type level based on the presence of the `dyn` keyword within the type:
-
 特性对象的结构体大小是未知的，所以必须要通过指针来引用它们。具体类型与特性对象在字面上的区别在于，特性对象必须要用 `dyn` 关键字来修饰前缀，了解了这一点我们可以轻松辨别二者。
 
 ```rust
 struct Struct;
 trait Trait {}
 
-// regular struct
 // 这是一般的结构
 &Struct
 Box<Struct>
 Rc<Struct>
 Arc<Struct>
 
-// trait objects
 // 这是特性对象
 &dyn Trait
 Box<dyn Trait>
@@ -1092,43 +1047,23 @@ Rc<dyn Trait>
 Arc<dyn Trait>
 ```
 
-> Not all traits can be converted into trait objects. A trait is object-safe if it meets these requirements:
->
-> - trait doesn't require `Self: Sized`
-> - all of the trait's methods are object-safe
-
 并非全部的特性都可以转换为特性对象，一个 “对象安全” 的特性必须满足：
 
 - 该特性不要求 `Self: Sized`
 - 该特性的所有方法都是 “对象安全” 的
-
-> A trait method is object-safe if it meets these requirements:
->
-> - method requires `Self: Sized` or
-> - method only uses a `Self` type in receiver position
 
 一个特性的方法若要是 “对象安全” 的，必须满足：
 
 - 该方法要求 `Self: Sized`
 - 该方法仅在接收参数中使用 `Self` 类型
 
-Understanding why the requirements are what they are is not relevant to the rest of this article, but if you're still curious it's covered in [Sizedness in Rust](../../sizedness-in-rust.md).
-
 关于具有这些限制条件的原因超出了本文的讨论范围且与下文无关，如果你对此深感兴趣不妨阅读 [Sizedness in Rust](../../sizedness-in-rust.md) 以了解详情。
 
 ### 仅用于标记的特性 Marker Traits
 
-> Marker traits are traits that have no trait items. Their job is to "mark" the implementing type as having some property which is otherwise not possible to represent using the type system.
-
 仅用于标记的特性，即是某种声明体为空的特性。它们存在的意义在于 “标记” 所实现的类型，且该类型具有某种类型系统所无法表达的属性。
 
 ```rust
-// Impling PartialEq for a type promises
-// that equality for the type has these properties:
-// - symmetry: a == b implies b == a, and
-// - transitivity: a == b && b == c implies a == c
-// But DOES NOT promise this property:
-// - reflexivity: a == a
 // 为特定类型实现 PartialEq 特性确保了该类型的相等算符具有以下性质：
 // - 对称性： 若有 a == b ， 则必有 b == a
 // - 传递性： 若有 a == b 和 b == c ， 则必有 a == c
@@ -1138,62 +1073,43 @@ trait PartialEq {
     fn eq(&self, other: &Self) -> bool;
 }
 
-// Eq has no trait items! The eq method is already
-// declared by PartialEq, but "impling" Eq
-// for a type promises this additional equality property:
-// - reflexivity: a == a
 // Eq 特性的声明体是空的！ 而 eq 方法已经被 PartialEq 所声明，
 // 但是对特定类型“实现” Eq 特性确保了额外的相等性质：
 // - 自反性： a == a
 trait Eq: PartialEq {}
 
-// f64 impls PartialEq but not Eq because NaN != NaN
-// i32 impls PartialEq & Eq because there's no NaNs :)
-// f64 实现了 PartialEq 特性但是没有实现 Eq 特性，因为 NaN != NaN
+// f64 实现了 PartialEq 特性但是没有实现 Eq 特性，**因为 NaN != NaN**
 // i32 同时实现了 PartialEq 特性与 Eq 特性，因为没有 NaN 来捣乱 :)
 ```
 
 ### 可自动实现的特性 Auto Traits
 
-> Auto traits are traits that get automatically implemented for a type if all of its members also impl the trait. What "members" means depends on the type, for example: fields of a struct, variants of an enum, elements of an array, items of a tuple, and so on.
-
 可自动实现的特性指的是，存在这样一种特性，若给定类型的成员都实现了该特性，那么该类型就隐式地自动实现该特性。这里所说的 “成员” 依据上下文而具有不同的含义，包括而又不限于结构体的字段、枚举的变量、数组的元素和元组的内容等等。
 
-> All auto traits are marker traits but not all marker traits are auto traits. Auto traits must be marker traits so the compiler can provide an automatic default impl for them, which would not be possible if they had any trait items.
-
 所有可自动实现的特性都是仅用于标记的特性，反之则不是。正是由于可自动实现的特性必须是仅用于标记的特性，所以编译器才能够自动为其提供一个默认实现，反之编译器就无能为力了。
-
-> Examples of auto traits:
 
 可自动实现的特性的示例：
 
 ```rust
-// implemented for types which are safe to send between threads
 // 实现 Send 特性的类型可以安全地往返于多个线程
 unsafe auto trait Send {}
 
-// implemented for types whose references are safe to send between threads
 // 实现 Sync 特性的类型，其引用可以安全地往返于多个线程
 unsafe auto trait Sync {}
 ```
 
 ### 不安全的特性 Unsafe Traits
 
-> Traits can be marked unsafe to indicate that impling the trait might require unsafe code. Both `Send` and `Sync` are marked `unsafe` because if they aren't automatically implemented for a type that means it must contains some non-`Send` or non-`Sync` member and we have to take extra care as the implementers to make sure there are no data races if we want to manually mark the type as `Send` and `Sync`.
-
 以 `unsafe` 修饰前缀的特性，意味着该特性的实现可能需要不安全的代码。`Send` 特性与 `Sync` 特性以 `unsafe` 修饰前缀意味着，如果特定类型没有自动实现该特性，那么说明该类型的成员并非都实现了该特性，这提示着我们手动实现该特性一定要谨慎小心，以确保没有发生数据竞争。
 
 ```rust
-// SomeType is not Send or Sync
 // SomeType 没有实现 Send 和 Sync
 struct SomeType {
     not_send_or_sync: *const (),
 }
 
-// but if we're confident that our impl doesn't have any data
-// races we can explicitly mark it as Send and Sync using unsafe
-// 倘若我们得以社会主义伟大成就的庇佑自信地写出没有数据竞争的代码
-// 可以使用 unsafe 来修饰前缀，以显式地实现 Send 特性与 Sync 特性
+// 倘若我们自信代码没有数据竞争,
+// 我们可以使用 unsafe 来修饰前缀，以显式地实现 Send 特性与 Sync 特性
 unsafe impl Send for SomeType {}
 unsafe impl Sync for SomeType {}
 ```
@@ -5601,38 +5517,6 @@ fn example_test() {
     assert_eq!(out_result, "I AM SCREAMING");
 }
 ```
-
-## 结语 Conclusion
-
-> We learned a lot together! Too much in fact. This is us now:
-
-我们真是学习了太多！太多了！可能这就是我们现在的样子：
-
-![rust standard library traits](../../../assets/jason-jarvis-stdlib-traits.png)
-
-_该漫画的创作者: [The Jenkins Comic](https://thejenkinscomic.wordpress.com/2020/05/06/memory/)_
-
-## 讨论 Discuss
-
-> Discuss this article on
-
-可以在如下地点讨论本文
-
-- [Github](https://github.com/pretzelhammer/rust-blog/discussions)
-- [learnrust subreddit](https://www.reddit.com/r/learnrust/comments/ml9shl/tour_of_rusts_standard_library_traits/)
-- [official Rust users forum](https://users.rust-lang.org/t/blog-post-tour-of-rusts-standard-library-traits/57974)
-- [Twitter](https://twitter.com/pretzelhammer/status/1379561720176336902)
-- [lobste.rs](https://lobste.rs/s/g27ezp/tour_rust_s_standard_library_traits)
-- [rust subreddit](https://www.reddit.com/r/rust/comments/mmrao0/tour_of_rusts_standard_library_traits/)
-
-## 通告 Notifications
-
-> Get notified when the next blog post get published by
-
-在如下处得知我下一篇博文的详情
-
-- [订阅我的推特 pretzelhammer](https://twitter.com/pretzelhammer) 或者
-- 订阅这个 repo (点击 `Watch` -> 点击 `Custom` -> 选择 `Releases` -> 点击 `Apply`)
 
 ## 更多资料 Further Reading
 
