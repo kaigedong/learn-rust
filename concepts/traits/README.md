@@ -66,7 +66,6 @@
 - [讨论 Discuss](#讨论-discuss)
 - [通告 Notifications](#通告-notifications)
 - [更多资料 Further Reading](#更多资料-further-reading)
-- [翻译 Translation](#翻译-translation)
 
 ## 引入 Intro
 
@@ -5162,7 +5161,6 @@ use std::io::Read;
 use std::io::Write;
 use std::io;
 
-// function we want to test
 // 欲要测试此函数
 fn uppercase<R: Read, W: Write>(mut read: R, mut write: W) -> Result<(), io::Error> {
     let mut buffer = String::new();
@@ -5173,7 +5171,6 @@ fn uppercase<R: Read, W: Write>(mut read: R, mut write: W) -> Result<(), io::Err
     Ok(())
 }
 
-// in actual program we'd pass Files
 // 实际使用中我们传入文件
 fn example(in_path: &Path, out_path: &Path) -> Result<(), io::Error> {
     let in_file = File::open(in_path)?;
@@ -5182,7 +5179,6 @@ fn example(in_path: &Path, out_path: &Path) -> Result<(), io::Error> {
 }
 
 
-// however in unit tests we can use Strings!
 // 但是在单元测试中我们使用 String !
 #[test] // ✅
 fn example_test() {
