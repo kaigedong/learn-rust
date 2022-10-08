@@ -15,6 +15,7 @@ use std::{
     collections::hash_map::DefaultHasher,
     convert::TryInto,
     hash::{Hash, Hasher},
+    num::NonZeroUsize,
     sync::Arc,
     time::Duration,
 };
@@ -46,7 +47,7 @@ type Cache = Arc<Mutex<LruCache<u64, Bytes>>>;
 async fn main() {
     // 初始化tracing
     tracing_subscriber::fmt::init();
-    let cache: Cache = Arc::new(Mutex::new(LruCache::new(1024)));
+    let cache: Cache = Arc::new(Mutex::new(LruCache::new(NonZeroUsize::new(1024).unwrap())));
 
     // tower::ServiceBuilder can be used to combine multiple middleware:
     let middleware_stack = ServiceBuilder::new()
