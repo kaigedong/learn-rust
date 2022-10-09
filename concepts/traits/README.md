@@ -733,7 +733,6 @@ trait Even {
     fn is_even(self) -> bool;
 }
 
-// generic blanket impl
 // 一揽子泛型实现
 impl<T> Even for T
 where
@@ -4025,8 +4024,7 @@ fn example<T: FromStr>(s: &'static str) {
     let t: Result<T, _> = FromStr::from_str(s);
     let t = T::from_str(s);
     let t: Result<T, _> = s.parse();
-    let t = s.parse::<T>(); // most idiomatic
-                            // 最理想的使用方式
+    let t = s.parse::<T>(); // 最理想的使用方式
 }
 ```
 
