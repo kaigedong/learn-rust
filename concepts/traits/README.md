@@ -1084,7 +1084,7 @@ trait Eq: PartialEq {}
 
 可自动实现的特性指的是，存在这样一种特性，若给定类型的成员都实现了该特性，那么该类型就隐式地自动实现该特性。这里所说的 “成员” 依据上下文而具有不同的含义，包括而又不限于结构体的字段、枚举的变量、数组的元素和元组的内容等等。
 
-所有可自动实现的特性都是仅用于标记的特性，反之则不是。正是由于可自动实现的特性必须是仅用于标记的特性，所以编译器才能够自动为其提供一个默认实现，反之编译器就无能为力了。
+**所有可自动实现的特性都是仅用于标记的特性**，反之则不是。正是由于可自动实现的特性必须是仅用于标记的特性，所以编译器才能够自动为其提供一个默认实现，反之编译器就无能为力了。
 
 可自动实现的特性的示例：
 
@@ -1129,7 +1129,11 @@ unsafe auto trait Sync {}
 
 实现 `Send` 特性的类型可以安全地往返于多线程。实现 `sync` 特性的类型，其引用可以安全地往返于多线程。用更加准确的术语来讲，当且仅当 `&T` 实现 `Send` 特性时，`T` 才能实现 `Sync` 特性。
 
-几乎所有类型都实现了 `Send` 特性和 `Sync` 特性。对于 `Send` 唯一需要注意的例外是 `Rc` ，对于 `Sync` 唯三需要注意的例外是 `Rc`，`Cell` 和 `RefCell` 。如果我们需要 `Send` 版的 `Rc` ，可以使用 `Arc` 。如果我们需要 `Sync` 版的 `Cell` 或 `RefCell` ，可以使用 `Mutex` 或 `RwLock` 。尽管我们可以使用 `Mutex` 或 `RwLock` 来包裹住原语类型，但通常使用标准库提供的原子原语类型会更好，诸如 `AtomicBool` ，`AtomicI32` 和 `AtomicUsize` 等等。
+几乎所有类型都实现了 `Send` 特性和 `Sync` 特性。
+
+**对于 `Send` 唯一需要注意的例外是 `Rc` ，对于 `Sync` 唯三需要注意的例外是 `Rc`，`Cell` 和 `RefCell` 。**
+
+如果我们需要 `Send` 版的 `Rc` ，可以使用 `Arc` 。如果我们需要 `Sync` 版的 `Cell` 或 `RefCell` ，可以使用 `Mutex` 或 `RwLock` 。尽管我们可以使用 `Mutex` 或 `RwLock` 来包裹住原语类型，但通常使用标准库提供的原子原语类型会更好，诸如 `AtomicBool` ，`AtomicI32` 和 `AtomicUsize` 等等。
 
 多亏了 Rust 严格的借用规则，几乎所有的类型都是 `Sync` 的。这对于一些人来讲可能会很惊讶，但事实胜于雄辩，甚至对于那些没有内部同步机制的类型来说也是如此。
 
@@ -1198,7 +1202,7 @@ fn main() {
 - [Marker Traits](#marker-traits)
 - [Auto Traits](#auto-traits)
 
-如果一个类型实现了 `Sized` ，那么说明该类型具体大小的字节数在编译时可以确定，并且也就说明该类型的实例可以存放在栈上。
+如果一个类型实现了 `Sized` ，那么说明该类型具体大小的字节数在编译时可以确定，**并且也就说明该类型的实例可以存放在栈上**。
 
 类型的大小以及其所带来的潜在影响，是一个易于忽略但是又十分宏大的话题，它深刻地影响着本门语言的诸多方面。鉴于它的重要性，我已经写了一整篇文章（[Sizedness in Rust](../../sizedness-in-rust.md)）来具体阐述其内容，我高度推荐对于希望深入 sizedness 的人阅读此篇文章。下面是此篇文章的要点：
 
@@ -1211,7 +1215,7 @@ fn func<T>(t: &T) {}
 fn func<T: Sized>(t: &T) {}
 ```
 
-2. 由于所有的泛型类型都具有隐式的 `Sized` 约束，如果我们希望摆脱这样的隐式约束，那么我们需要使用特殊的 _“宽松约束”_ 记号 `?Sized` ，目前这样的记号仅适用于 `Sized` 特性：
+2. 由于所有的泛型类型都具有隐式的 `Sized` 约束，如果我们希望摆脱这样的隐式约束，那么我们需要使用特殊的 _“宽松约束”_ 记号 `?Sized` ，**目前这样的记号仅适用于 `Sized` 特性**：
 
 ```rust
 // 现在 T 的大小可以是未知的
@@ -1527,7 +1531,7 @@ impl<T: 'static + ?Sized> Any for T {
 }
 ```
 
-对于 `dyn Any` 的特性对象，我们可以使用 `downcast_ref::<T>()` 或 `downcast_mut::<T>()` 来尝试解析出 `T` 。
+**对于 `dyn Any` 的特性对象，我们可以使用 `downcast_ref::<T>()` 或 `downcast_mut::<T>()` 来尝试解析出 `T` 。**
 
 ```rust
 use std::any::Any;
@@ -1678,7 +1682,7 @@ trait ToString {
 }
 ```
 
-我们不需要自己手动实现，事实上，我们也不能，因为对于实现了 `Display` 的类型来说，`ToString` 是由一揽子泛型实现所自动实现的。
+我们不需要自己手动实现，事实上，我们也不能，**因为对于实现了 `Display` 的类型来说，`ToString` 是由一揽子泛型实现所自动实现的。**
 
 ```rust
 impl<T: Display + ?Sized> ToString for T;
@@ -1721,7 +1725,7 @@ trait Debug {
 }
 ```
 
-`Debug` 与 `Display` 具有相同的签名。唯一的区别在于我们使用 `{:?}` 文本格式化指令来调用 `Debug` 特性。 `Debug` 特性可以使用如下方法衍生：
+**`Debug` 与 `Display` 具有相同的签名。唯一的区别在于我们使用 `{:?}` 文本格式化指令来调用 `Debug` 特性。** `Debug` 特性可以使用如下方法衍生：
 
 ```rust
 use std::fmt;
@@ -1755,7 +1759,6 @@ fn some_condition() -> bool {
     true
 }
 
-// no logging
 // 没有日志
 fn example() {
     if some_condition() {
@@ -1763,13 +1766,12 @@ fn example() {
     }
 }
 
-// println! logging
 // 使用 println! 打印日志
 fn example_println() {
     // 🤦
     let result = some_condition();
-    println!("{}", result); // just prints "true"
-                            // 仅仅打印 "true"
+    println!("{}", result);  // 仅仅打印 "true"
+
     if result {
         // some code
     }
@@ -1790,7 +1792,7 @@ fn example_dbg() {
 
 ## 算符重载特性 Operator Traits
 
-在 Rust 中，所有的算符都与相应的特性相关联。为特定类型实现相应特性，即为该类型实现了相应算符。
+在 Rust 中，所有的算符都与相应的特性相关联。**为特定类型实现相应特性，即为该类型实现了相应算符。**
 
 | 特性                | 类别 | 算符                 | 描述           |
 | ------------------- | ---- | -------------------- | -------------- |
@@ -1903,7 +1905,6 @@ enum Suit {
 多亏了一揽子泛型实现，一旦我们为特定类型实现了 `PartialEq` 特性，那么直接使用该类型的引用互相比较也是可以的：
 
 ```rust
-// this impl only gives us: Point == Point
 // 该衍生宏本身只允许我们在结构体之间进行比较
 #[derive(PartialEq)]
 struct Point {
@@ -1911,8 +1912,6 @@ struct Point {
     y: i32
 }
 
-// all of the generic blanket impls below
-// are provided by the standard library
 // 以下的一揽子泛型实现由标准库提供
 
 // this impl gives us: &Point == &Point
@@ -1974,7 +1973,6 @@ struct Card {
     rank: Rank,
 }
 
-// check equality of Card's suit
 // 检查花色的相等性
 impl PartialEq<Suit> for Card {
     fn eq(&self, other: &Suit) -> bool {
@@ -1982,7 +1980,6 @@ impl PartialEq<Suit> for Card {
     }
 }
 
-// check equality of Card's rank
 // 检查牌序的相等性
 impl PartialEq<Rank> for Card {
     fn eq(&self, other: &Rank) -> bool {
@@ -1995,6 +1992,10 @@ fn main() {
         suit: Suit::Spade,
         rank: Rank::Ace,
     };
+
+    // 多此一举，直接AceOfSpades.sute == Sute::Spade;
+    // AceOfSpades.rank == Rank::Ace 不就行了？
+
     assert!(AceOfSpades == Suit::Spade); // ✅
     assert!(AceOfSpades == Rank::Ace); // ✅
 }
@@ -2003,7 +2004,6 @@ fn main() {
 上述代码有效且其逻辑有几分道理，黑桃 A 既是黑桃也是 A 。但如果我们真的去写一个处理扑克牌的库的话，最简单也最方便的方法莫过于独立地检查牌面的花色和牌序。而且，上述代码并不满足对称性！我们可以使用 `Card == Suit` 和 `Card == Rank` ，但却不能使用 `Suit == Card` 和 `Rank == Card`， 让我们来修复这一点：
 
 ```rust
-// check equality of Card's suit
 // 检查花色的相等性
 impl PartialEq<Suit> for Card {
     fn eq(&self, other: &Suit) -> bool {
@@ -2011,7 +2011,6 @@ impl PartialEq<Suit> for Card {
     }
 }
 
-// added for symmetry
 // 增加对称性
 impl PartialEq<Card> for Suit {
     fn eq(&self, other: &Card) -> bool {
@@ -2019,7 +2018,6 @@ impl PartialEq<Card> for Suit {
     }
 }
 
-// check equality of Card's rank
 // 检查牌序的相等性
 impl PartialEq<Rank> for Card {
     fn eq(&self, other: &Rank) -> bool {
@@ -2027,7 +2025,6 @@ impl PartialEq<Rank> for Card {
     }
 }
 
-// added for symmetry
 // 增加对称性
 impl PartialEq<Card> for Rank {
     fn eq(&self, other: &Card) -> bool {
@@ -2111,22 +2108,18 @@ fn main() {
     let b = Yard(1760);
     let c = Mile(1);
 
-    // symmetry
     // 对称性
     assert!(a == b && b == a); // ✅
     assert!(b == c && c == b); // ✅
     assert!(a == c && c == a); // ✅
 
-    // transitivity
     // 传递性
     assert!(a == b && b == c && a == c); // ✅
     assert!(c == b && b == a && c == a); // ✅
 }
 ```
 
-> `Eq` is a marker trait and a subtrait of `PartialEq<Self>`.
-
-`Eq` 是仅用于标记的特性，也是 `PartialEq<Self>` 的子特性。
+**`Eq` 是仅用于标记的特性**，也是 `PartialEq<Self>` 的子特性。
 
 ```rust
 trait Eq: PartialEq<Self> {}
@@ -2254,7 +2247,6 @@ where
 {
     fn partial_cmp(&self, other: &Rhs) -> Option<Ordering>;
 
-    // provided default impls
     // 提供默认实现
     fn lt(&self, other: &Rhs) -> bool;
     fn le(&self, other: &Rhs) -> bool;
@@ -2293,7 +2285,6 @@ struct Point {
 
 // Rhs == Self == Point
 impl PartialOrd for Point {
-    // impl automatically symmetric & transitive
     // 该实现自动确保了对称性与传递性
     fn partial_cmp(&self, other: &Point) -> Option<Ordering> {
         Some(match self.x.cmp(&other.x) {
@@ -2321,13 +2312,9 @@ enum Stoplight {
 }
 ```
 
-`PartialOrd` 衍生宏依据 **类型成员的定义顺序** 对类型进行排序：
+**`PartialOrd` 衍生宏依据 **类型成员的定义顺序** 对类型进行排序：**
 
 ```rust
-// generates PartialOrd impl which orders
-// Points based on x member first and
-// y member second because that's the order
-// they appear in the source code
 // 宏展开的 PartialOrd 实现排序时
 // 首先考虑 x 再考虑 y
 // 因为这是它们在源代码中出现的顺序
@@ -2337,9 +2324,6 @@ struct Point {
     y: i32,
 }
 
-// generates DIFFERENT PartialOrd impl
-// which orders Points based on y member
-// first and x member second
 // 这里宏展开的 PartialOrd 实现排序时
 // 首先考虑 y 再考虑 x
 #[derive(PartialOrd, PartialEq)]
@@ -2355,7 +2339,6 @@ struct Point {
 trait Ord: Eq + PartialOrd<Self> {
     fn cmp(&self, other: &Self) -> Ordering;
 
-    // provided default impls
     // 提供默认实现
     fn max(self, other: Self) -> Self;
     fn min(self, other: Self) -> Self;
@@ -2368,7 +2351,6 @@ trait Ord: Eq + PartialOrd<Self> {
 ```rust
 use std::cmp::Ordering;
 
-// of course we can use the derive macros here
 // 可以使用衍生宏
 #[derive(Ord, PartialOrd, Eq, PartialEq)]
 struct Point {
@@ -2376,13 +2358,9 @@ struct Point {
     y: i32,
 }
 
-// note: as with PartialOrd, the Ord derive macro
-// orders a type based on the lexicographical order
-// of its members
 // 注意：与 PatrialOrd 相同，Ord 衍生宏衍生宏依据
 // 类型的成员的定义顺序 对类型进行排序
 
-// but here's the impls if we wrote them out by hand
 // 以下是我们手动的实现
 impl Ord for Point {
     fn cmp(&self, other: &Self) -> Ordering {
@@ -2412,8 +2390,6 @@ impl Eq for Point {}
 ```rust
 use std::collections::BTreeSet;
 
-// now our type can be stored
-// in BTreeSets and BTreeMaps!
 // 现在我们的类型可以存储于 BTreeSet 和 BTreeMap 中了！
 #[derive(Ord, PartialOrd, PartialEq, Eq)]
 struct Point {
@@ -2426,7 +2402,6 @@ fn example_btreeset() {
     points.insert(Point { x: 0, y: 0 }); // ✅
 }
 
-// we can also .sort() Ord types in collections!
 // 对于实现了 Ord 特性的类型，我们可以使用 .sort() 方法来对集合进行排序！
 fn example_sort<T: Ord>(mut sortable: Vec<T>) -> Vec<T> {
     sortable.sort();
@@ -2572,7 +2547,6 @@ struct Line {
     end: Point,
 }
 
-// we updated this impl
 // 我们更新了这个实现
 impl Add for Point {
     type Output = Line;
@@ -2584,7 +2558,6 @@ impl Add for Point {
     }
 }
 
-// but forgot to update this impl, uh oh!
 // 但是忘记了更新这个实现，糟tm大糕！
 impl Add for &Point {
     type Output = Point;
@@ -2603,15 +2576,13 @@ fn main() {
 
     let p1 = Point { x: 1, y: 2 };
     let p2 = Point { x: 3, y: 4 };
-    let line: Line = &p1 + &p2; // ❌ expected Line, found Point
-                                // ❌ 期待得到 Line ，但是得到 Point
+    let line: Line = &p1 + &p2; // ❌ 期待得到 Line ，但是得到 Point
 }
 ```
 
 我们对 `&Point` 不可变引用类型的 `Add` 实现，给我们带来了不必要的维护困难。是否能够使得，当我们更改 `Point` 类型的实现时， `&Point` 类型的实现也能够自动发生匹配，而不需要我们手动维护呢？我们的愿望是尽可能写出 `DRY (Don't Repeat Yourself)` 的不重复的代码。幸运的是，我们可以如此实现这一点：
 
 ```rust
-// updated, DRY impl
 // 使用一种更“干”的实现
 impl Add for &Point {
     type Output = <Point as Add>::Output;
