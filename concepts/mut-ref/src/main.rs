@@ -16,7 +16,7 @@ fn replace_with_84(s: &mut Box<i32>) {
     // 这不行，因为*s 将会是空
     // let was = *s;
 
-    // 这样可以：
+    // 这样可以： take 等价于 swap(&mut value, Default::default())
     let was = std::mem::take(s);
     // 这样也可以
     *s = was;
