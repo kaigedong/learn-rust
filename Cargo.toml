@@ -4,6 +4,7 @@ members = [
   "concepts/lists",
   "concepts/macros",
   "concepts/macros/hello_macro",
+  "concepts/mut-ref",
   "concepts/refcell",
   "exercises/blockchain/*",
   "exercises/httpie",
