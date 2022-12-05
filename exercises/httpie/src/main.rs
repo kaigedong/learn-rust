@@ -38,7 +38,7 @@ enum SubCommand {
 #[derive(Parser, Debug)]
 struct Get {
     /// HTTP 请求的URL
-    #[clap(parse(try_from_str = parse_url))]
+    #[clap(value_parser = parse_url)]
     url: String,
 }
 
@@ -49,15 +49,15 @@ struct Get {
 #[derive(Parser, Debug)]
 struct Post {
     /// HTTP请求的URL
-    #[clap(parse(try_from_str=parse_url))]
+    #[clap(value_parser = parse_url)]
     url: String,
     /// HTTP请求的body
-    #[clap(parse(try_from_str=parse_kv_pair))]
+    #[clap(value_parser = parse_kv_pair)]
     body: Vec<KvPair>,
 }
 
 /// 命令行中的key=value可以通过parse_kv_pair解析成KvPair结构
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 struct KvPair {
     k: String,
     v: String,
