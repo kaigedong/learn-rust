@@ -31,6 +31,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // 下面创建方式会有问题：https://github.com/libp2p/rust-libp2p/discussions/2592
     // let mut swarm = Swarm::with_threadpool_executor(transport, behaviour, peer_id);
     let mut swarm = SwarmBuilder::with_tokio_executor(transport, behaviour, peer_id).build();
+    // 等价于
+    // let mut swarm = libp2p::Swarm::with_tokio_executor(transport, behaviour, peer_id);
 
     // 在节点随机开启一个端口监听
     //

@@ -6,10 +6,10 @@ use libp2p::{
     identity, mdns,
     mdns::Event,
     noise,
-    swarm::{NetworkBehaviour, SwarmBuilder, SwarmEvent},
+    swarm::{NetworkBehaviour, SwarmEvent},
     tcp,
     tcp::Config,
-    yamux, Multiaddr, PeerId, Transport,
+    yamux, Multiaddr, PeerId, Swarm, Transport,
 };
 use tokio::io::{self, AsyncBufReadExt};
 
@@ -123,8 +123,7 @@ async fn main() -> Result<()> {
         let mut behaviour = MyBehaviour::new(peer_id).await?;
         // 订阅floodsub topic
         behaviour.floodsub.subscribe(floodsub_topic.clone());
-
-        SwarmBuilder::with_tokio_executor(transport, behaviour, peer_id).build()
+        Swarm::with_tokio_executor(transport, behaviour, peer_id)
     };
 
     // 指定一个远程节点进行手动链接
@@ -138,7 +137,7 @@ async fn main() -> Result<()> {
     let mut stdin = io::BufReader::new(io::stdin()).lines();
 
     // 监听操作系统分配的端口
-    swarm.listen_on("/pi4/127.0.0.1/tcp/0".parse()?)?;
+    swarm.listen_on("/ip4/127.0.0.1/tcp/0".parse()?)?;
 
     loop {
         tokio::select! {
