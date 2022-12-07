@@ -3,28 +3,28 @@ use futures::StreamExt;
 use libp2p::{
     core::upgrade,
     floodsub::{self, Floodsub, FloodsubEvent},
-    identity,
-    mdns::{Mdns, MdnsEvent},
+    identity, mdns,
+    mdns::Event,
     noise,
-    swarm::{SwarmBuilder, SwarmEvent},
-    tcp::{GenTcpConfig, TokioTcpTransport},
-    yamux, Multiaddr, NetworkBehaviour, PeerId, Transport,
+    swarm::{NetworkBehaviour, SwarmBuilder, SwarmEvent},
+    tcp,
+    tcp::Config,
+    yamux, Multiaddr, PeerId, Transport,
 };
 use tokio::io::{self, AsyncBufReadExt};
 
 // 自定义网络行为，组合floodsub和mDNS
-
 #[derive(NetworkBehaviour)]
 #[behaviour(out_event = "MyBehaviourEvent")]
 struct MyBehaviour {
     floodsub: Floodsub,
-    mdns: Mdns,
+    mdns: mdns::tokio::Behaviour,
 }
 
 #[allow(clippy::large_enum_variant)]
 enum MyBehaviourEvent {
     Floodsub(FloodsubEvent),
-    Mdns(MdnsEvent),
+    Mdns(Event),
 }
 
 impl From<FloodsubEvent> for MyBehaviourEvent {
@@ -33,8 +33,8 @@ impl From<FloodsubEvent> for MyBehaviourEvent {
     }
 }
 
-impl From<MdnsEvent> for MyBehaviourEvent {
-    fn from(event: MdnsEvent) -> Self {
+impl From<Event> for MyBehaviourEvent {
+    fn from(event: Event) -> Self {
         MyBehaviourEvent::Mdns(event)
     }
 }
@@ -42,11 +42,12 @@ impl From<MdnsEvent> for MyBehaviourEvent {
 impl MyBehaviour {
     // 传入peerId，构建MyBehaviour
     async fn new(id: PeerId) -> Result<Self> {
+        let mdns = mdns::Behaviour::new(mdns::Config::default())?;
         Ok(Self {
             // floodsub协议初始化
             floodsub: Floodsub::new(id),
             // mDNS协议初始化
-            mdns: Mdns::new(Default::default()).await?,
+            mdns,
         })
     }
 
@@ -74,14 +75,14 @@ impl MyBehaviour {
             // 当产生一个mDNS事件时，该方法被调用
             MyBehaviourEvent::Mdns(event) => match event {
                 // 发现新节点，将节点添加到传播消息的节点列表中
-                MdnsEvent::Discovered(list) => {
+                Event::Discovered(list) => {
                     for (peer, _) in list {
                         self.floodsub.add_node_to_partial_view(peer);
                         println!("在网络中加入节点: {peer}");
                     }
                 }
                 // 当节点失效时，从传播消息的节点列表中删除一个节点
-                MdnsEvent::Expired(list) => {
+                Event::Expired(list) => {
                     for (peer, _) in list {
                         if !self.mdns.has_node(&peer) {
                             self.floodsub.remove_node_from_partial_view(&peer);
@@ -108,7 +109,7 @@ async fn main() -> Result<()> {
 
     // 创建一个基于tokio的TCP传输层，使用noise进行身份验证
     // 由于多了一层加密，所以使用yamux基于TCP流进行多路复用
-    let transport = TokioTcpTransport::new(GenTcpConfig::default())
+    let transport = tcp::tokio::Transport::new(Config::default())
         .upgrade(upgrade::Version::V1)
         .authenticate(noise::NoiseConfig::xx(noise_keys).into_authenticated())
         .multiplex(yamux::YamuxConfig::default())
@@ -123,11 +124,7 @@ async fn main() -> Result<()> {
         // 订阅floodsub topic
         behaviour.floodsub.subscribe(floodsub_topic.clone());
 
-        SwarmBuilder::new(transport, behaviour, peer_id)
-            .executor(Box::new(|fut| {
-                tokio::spawn(fut);
-            }))
-            .build()
+        SwarmBuilder::with_tokio_executor(transport, behaviour, peer_id).build()
     };
 
     // 指定一个远程节点进行手动链接
