@@ -4,18 +4,9 @@
 
 ```shell
 # 测试运行服务：
-cargo run --example basic
+cargo run 
 pip install httpie
 http "http://127.0.0.1:8080/"
-```
-
-```console
-HTTP/1.1 200 OK
-content-length: 13
-content-type: text/html; charset=utf-8
-date: Sun, 20 Feb 2022 08:23:14 GMT
-
-Hello, world!
 ```
 
 ```shell
