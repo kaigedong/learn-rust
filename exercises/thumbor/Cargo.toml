@@ -14,7 +14,7 @@ path = "src/server2.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 anyhow = "1" # 错误处理
-axum = "0.5" # web服务器
+axum = "0.6" # web服务器
 base64 = "0.13" # base64编码/解码
 bytes = "1" # 处理字节流
 image = "0.24" # 处理图片
