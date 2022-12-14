@@ -5,7 +5,7 @@ version = "0.1.0"
 
 [dependencies]
 # 为了使用TypedHeader加这个feature
-axum = { version = "0.5", features = ["headers"] }
+axum = { version = "0.6", features = ["headers"] }
 jsonwebtoken = "8" # 用于处理登录校验
 mime_guess = "2" # 通过文件拓展名，获取对应的媒体类型（MIME）
 rust-embed = "6" # 编译时将静态文件打包进Rust二进制

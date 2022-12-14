@@ -1,5 +1,5 @@
 use crate::{Todo, TodoStore, SECRET};
-use axum::extract::Extension;
+use axum::extract::State;
 use axum::http::{StatusCode, Uri};
 use axum::response::IntoResponse;
 use axum::Json;
@@ -47,7 +47,7 @@ pub async fn login_handler(Json(_login): Json<LoginRequest>) -> Json<LoginRespon
 // get `/todos` 路由
 pub async fn todos_handler(
     claims: crate::extractors::Claims,
-    Extension(store): Extension<TodoStore>,
+    State(store): State<TodoStore>,
 ) -> Result<Json<Vec<Todo>>, crate::responses::HttpError> {
     let user_id = claims.id;
     match store.items.read() {
@@ -89,10 +89,11 @@ pub struct CreateTodo {
 }
 
 // post `/todos` 路由
+// NOTE: 0.6开始只允许最后一个extractor consume body
 pub async fn create_todo_handler(
     claims: crate::extractors::Claims,
+    State(store): State<TodoStore>,
     Json(todo): Json<CreateTodo>,
-    Extension(store): Extension<TodoStore>,
 ) -> Result<StatusCode, crate::responses::HttpError> {
     // println!("{:?}", claims);
     match store.items.write() {

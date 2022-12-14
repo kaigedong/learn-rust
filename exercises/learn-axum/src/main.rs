@@ -1,5 +1,4 @@
 use axum::{
-    extract::Extension,
     routing::{get, post},
     Router, Server,
 };
@@ -40,9 +39,9 @@ async fn main() {
             "/todos",
             get(handlers::todos_handler)
                 .post(handlers::create_todo_handler)
-                .layer(Extension(store)),
+                .with_state(store),
         )
-        .fallback(get(handlers::static_handler));
+        .fallback(handlers::static_handler);
     // 等价于:
     // use axum::handler::Handler;
     // .fallback(static_handler.into_service());
