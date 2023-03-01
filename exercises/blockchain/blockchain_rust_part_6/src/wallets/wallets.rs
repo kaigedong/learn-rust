@@ -40,7 +40,7 @@ impl Wallets {
     pub fn save_wallet_to_file(&self) -> Result<(), BlockchainError> {
         let path = current_dir().unwrap().join(WALLET_FILE);
         let wallets_ser = serialize(&self)?;
-        fs::write(path, &wallets_ser).unwrap();
+        fs::write(path, wallets_ser).unwrap();
         Ok(())
     }
 

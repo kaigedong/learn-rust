@@ -1,4 +1,4 @@
-use base64::{decode, encode};
+use base64::{engine::general_purpose, Engine};
 use photon_rs::transform::SamplingFilter;
 use prost::Message;
 
@@ -16,7 +16,7 @@ impl ImageSpec {
 impl From<&ImageSpec> for String {
     fn from(image_spec: &ImageSpec) -> Self {
         let data = image_spec.encode_to_vec();
-        encode(data)
+        general_purpose::STANDARD.encode(data)
     }
 }
 
@@ -25,7 +25,7 @@ impl TryFrom<&str> for ImageSpec {
     type Error = anyhow::Error;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        let data = decode(value)?;
+        let data = general_purpose::STANDARD.decode(value)?;
         Ok(ImageSpec::decode(&data[..])?)
     }
 }

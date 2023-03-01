@@ -13,8 +13,8 @@ impl Solution2 {
             let root = root.borrow();
             (root.val as i64) < max
                 && (root.val as i64) > min
-                && Self::is_valid_bst_helper(root.left.as_deref(), root.val as i64, min as i64)
-                && Self::is_valid_bst_helper(root.right.as_deref(), max as i64, root.val as i64)
+                && Self::is_valid_bst_helper(root.left.as_deref(), root.val as i64, min)
+                && Self::is_valid_bst_helper(root.right.as_deref(), max, root.val as i64)
         } else {
             true
         }
