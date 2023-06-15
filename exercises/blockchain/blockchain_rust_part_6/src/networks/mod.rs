@@ -10,7 +10,7 @@ use anyhow::Result;
 use libp2p::{
     core::upgrade,
     gossipsub::{
-        GossipsubConfigBuilder, GossipsubMessage, IdentTopic as Topic, MessageId, ValidationMode,
+        ConfigBuilder, GossipsubMessage, IdentTopic as Topic, MessageId, ValidationMode,
     },
     identity::Keypair,
     noise,
